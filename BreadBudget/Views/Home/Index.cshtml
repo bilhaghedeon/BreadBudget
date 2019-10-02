@@ -9,23 +9,27 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 </head>
 <body>
-    <div class="d-flex align-items-center">
-        <div class="container text-center">
-            <h1>Login</h1>
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
             <form> 
+                <h1 class="mb-5 text-center">Login</h1>
                 <div class="form-group">
-                    <label for="Username"></label>
+                    <label for="Username">Username</label>
                     <input />
                 </div>
-                <div class="form-group">
-                    <label for="Password"></label>
+                <div class="pb-3 form-group">
+                    <label for="Password">Password</label>
                     <input type="password" />
                 </div>
-                <button class="btn btn-primary" type="submit">Login</button>
-                <button class="btn btn-primary">Sign Up</button>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+                
             </form>
         </div>
     </div>

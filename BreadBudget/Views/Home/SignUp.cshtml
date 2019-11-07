@@ -1,0 +1,57 @@
+﻿@model BreadBudget.Models.SignUp
+
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+    <div class="container h-100">
+        <div class="panel panel-success">
+            <div class="panel-heading text-center"><h4>Sign Up</h4></div>
+            <div class="panel-body">
+                <form class="p-a-1" asp-action="SignUp" method="post">
+                    <div asp-validation-summary="All"></div>
+                    <div class="form-group">
+                        <label asp-for="Name">Name:</label>
+                        <input class="form-control" asp-for="Name" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email">Email:</label>
+                        <input class="form-control" asp-for="Email" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password">Password:</label>
+                        <input type="password" class="form-control" asp-for="Password" />
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="ProfilePicture" class="col-sm-3 col-form-label">Profile Picture: </label>
+                        <div class="col-sm-9">
+                            <div class="custom-file">
+                                <input asp-for="ProfilePicture" type="file" class="form-control-file">
+                                <label class="custom-file-label">Choose Profile Picture...</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">
+                        Sign Up!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

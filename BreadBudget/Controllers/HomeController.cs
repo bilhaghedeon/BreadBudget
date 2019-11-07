@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NewsAPI;
+using NewsAPI.Models;
+using NewsAPI.Constants;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,9 +15,17 @@ namespace BreadBudget.Controllers
     {
         public IActionResult Index()
         {
+            
+           
             return View();
         }
 
+        public IActionResult SignUp()
+        {
+
+
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

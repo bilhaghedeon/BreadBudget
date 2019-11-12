@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace BreadBudget.Models
 
         public string Password { get; set; }
 
-        public string ProfilePicture { get; set; }
+        public IFormFile ProfilePicture { get; set; }
 
         /* second page ask for general information to start budget */
 

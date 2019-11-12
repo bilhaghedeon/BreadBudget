@@ -18,7 +18,7 @@
         <div class="panel panel-success">
             <div class="panel-heading text-center"><h4>Sign Up</h4></div>
             <div class="panel-body">
-                <form class="p-a-1" asp-action="SignUp" method="post">
+                <form class="p-a-1" enctype="multipart/form-data" asp-action="SignUp" method="post">
                     <div asp-validation-summary="All"></div>
                     <div class="form-group">
                         <label asp-for="Name">Name:</label>
@@ -36,7 +36,7 @@
                         <label asp-for="ProfilePicture" class="col-sm-3 col-form-label">Profile Picture: </label>
                         <div class="col-sm-9">
                             <div class="custom-file">
-                                <input asp-for="ProfilePicture" type="file" class="form-control-file">
+                                <input asp-for="ProfilePicture" class="form-control custom-file-input">
                                 <label class="custom-file-label">Choose Profile Picture...</label>
                             </div>
                         </div>

@@ -7,21 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using BreadBudget.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace BreadBudget.Controllers
 {
     public class HomeController : Controller
 
     {
+        private UserDb _context;
 
-
-        private readonly IHostingEnvironment hostingEnvironment;
-
-        public HomeController(
-            IHostingEnvironment hostingEnvironmnet)
+        public HomeController(UserDb context)
         {
-           
-            this.hostingEnvironment = hostingEnvironment;
+            _context = context;
         }
 
 

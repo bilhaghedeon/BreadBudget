@@ -8,11 +8,10 @@ namespace BreadBudget.Models
 {
     public class UserDb : DbContext
     {
-        public DbSet<Account> Accounts { get; set; }
-
         public UserDb(DbContextOptions<UserDb> options) : base(options)
         {
 
         }
+        public DbSet<Account> Accounts { get; set; }
     }
 }

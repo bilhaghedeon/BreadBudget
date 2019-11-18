@@ -29,11 +29,9 @@ namespace BreadBudget.Controllers
             return View();
         }
 
-        public IActionResult DisplayTest(Account account)
+        public IActionResult DisplayTest()
         {
-
-
-            return View();
+            return View(_context.Accounts.ToList());
         }
 
         public IActionResult SignUp()
@@ -58,6 +56,7 @@ namespace BreadBudget.Controllers
                 //AccountRepository.AddAccount(newAccount);
 
                 _context.Add(newAccount);
+                _context.SaveChanges();
 
                 /*
                 string uniqueFileName = null;
@@ -72,7 +71,7 @@ namespace BreadBudget.Controllers
                 AccountRepository.AddAccount(newAccount);
                 RedirectToAction("Index");*/
 
-                return View("DisplayTest", newAccount);
+                return RedirectToAction("DisplayTest");
 
             }
 

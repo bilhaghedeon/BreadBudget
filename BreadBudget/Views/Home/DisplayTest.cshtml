@@ -1,8 +1,8 @@
-﻿@model  BreadBudget.Models.Account
+﻿@model IEnumerable<BreadBudget.Models.Account>
 
 @{
     ViewData["Title"] = "DisplayTest";
-    var photoPath = "/wwwroot/images/" + (Model.ProfilePicture ?? "noimage.jpg");
+    //var photoPath = "/wwwroot/images/" + (Model.ProfilePicture ?? "noimage.jpg");
 }
 
 <!DOCTYPE html>
@@ -19,8 +19,15 @@
     
     <h1>Display photo: </h1>
 
-    <p>@photoPath</p>
-    <img src="~/images/@Model.ProfilePicture" asp-append-version="true"/>
+    @*<p>@photoPath</p>*@
+    @*<img src="~/images/@Model.ProfilePicture" asp-append-version="true"/>*@
+    @foreach(var account in Model)
+    {
+        <p>@account.Name</p>
+        <p>@account.Email</p>
+        <p>@account.ProfilePicture</p>
+
+    }
 
 </body>
 </html>

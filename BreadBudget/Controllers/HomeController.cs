@@ -55,7 +55,9 @@ namespace BreadBudget.Controllers
                 string filePath = Path.Combine("wwwroot/images/", fileName);
                 model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));
                 Account newAccount = new Account(model.Name, model.Email, model.Password, fileName);
-                AccountRepository.AddAccount(newAccount);
+                //AccountRepository.AddAccount(newAccount);
+
+                _context.Add(newAccount);
 
                 /*
                 string uniqueFileName = null;

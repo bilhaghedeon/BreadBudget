@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 
 namespace BreadBudget.Models
 {
-    public class Repository
+    public class AccountRepository
     {
 
         private static List<Account> _accounts = new List<Account>();
 
-        
+        public static void AddAccount(Account newAccount)
+        {
+            _accounts.Add(newAccount);
+        }
 
 
 

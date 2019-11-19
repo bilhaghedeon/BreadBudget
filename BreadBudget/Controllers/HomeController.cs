@@ -21,12 +21,46 @@ namespace BreadBudget.Controllers
             _context = context;
         }
 
-
+        [HttpGet]
         public IActionResult Index()
         {
-            
-           
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError("Email", "Email cannot be empty");
+                return View();
+            }
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("Password", "Password cannot be empty");
+                return View();
+            }
+            var queryEmail = _context.Accounts.Any(a => a.Email == email);
+            if (queryEmail == true)
+            {
+                var queryAccount = _context.Accounts.Any(a => a.Email == email && a.Password == password);
+                if (queryAccount == true)
+                {
+                    return View("Privacy");
+                }
+                else
+                {
+                    ModelState.Clear();
+                    ModelState.AddModelError("InvalidPassword", "Invalid password. Please try again.");
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.Clear();
+                ModelState.AddModelError("AccountNotFound", "Invalid login. Please try again.");
+                return View();
+            }
         }
 
         public IActionResult DisplayTest()

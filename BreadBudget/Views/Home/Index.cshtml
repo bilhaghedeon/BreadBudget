@@ -1,4 +1,5 @@
 ﻿@* Author: Nevada Graci *@
+@model  BreadBudget.Models.Account;
 @{
     Layout = null;
 }
@@ -15,18 +16,19 @@
 <body>
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
-            <form> 
+            <form asp-action="Index" method="post"> 
                 <h1 class="mb-5 text-center">Login</h1>
+                <div asp-validation-summary="All"></div>
                 <div class="form-group text-center">
-                    <label class="text-left">Username</label>
+                    <label asp-for="Email" class="text-left">Email</label>
                     <div class="text-center">
-                        <input />
+                        <input class="form-control" asp-for="Email" />
                     </div>
                 </div>
                 <div class="pb-3 form-group text-center">
-                    <label class="text-left">Password</label>
+                    <label asp-for="Password" class="text-left">Password</label>
                     <div class="text-center">
-                        <input />
+                        <input class="form-control" asp-for="Password"/>
                     </div>
                 </div>
                 <div class="text-center">

@@ -8,6 +8,9 @@ using BreadBudget.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using NewsAPI;
+using NewsAPI.Constants;
+using NewsAPI.Models;
 
 namespace BreadBudget.Controllers
 {
@@ -180,5 +183,21 @@ namespace BreadBudget.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+        public ArticlesResult News()
+        {
+
+            var newsApiClient = new NewsApiClient("465ab82acc5b43999381d54823215a61");
+            var articlesResponse = newsApiClient.GetEverything(new EverythingRequest
+            {
+                Q = "Apple",
+                SortBy = SortBys.Popularity,
+                Language = Languages.EN
+            });
+            return articlesResponse;
+        }
+
     }
 }

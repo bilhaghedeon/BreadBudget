@@ -32,41 +32,37 @@ namespace BreadBudget.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string email, string password)
+        public IActionResult Index(LogIn login)
         {
-            if (string.IsNullOrEmpty(email))
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("Email", "Email cannot be empty");
-                return View();
-            }
-            if (string.IsNullOrEmpty(password))
-            {
-                ModelState.AddModelError("Password", "Password cannot be empty");
-                return View();
-            }
-
-            // Checks the database for the corresponding account email
-            var queryEmail = _context.Accounts.Any(a => a.Email == email);
-            if (queryEmail == true)
-            {
-                // Checks the database for the corresponding account password
-                var queryAccount = _context.Accounts.Any(a => a.Email == email && a.Password == password);
-
-                if (queryAccount == true)
+                // Checks the database for the corresponding account email
+                var queryEmail = _context.Accounts.Any(a => a.Email == login.Email);
+                if (queryEmail == true)
                 {
-                    return View("Privacy");
+                    // Checks the database for the corresponding account password
+                    var queryAccount = _context.Accounts.Any(a => a.Email == login.Email && a.Password == login.Password);
+
+                    if (queryAccount == true)
+                    {
+                        return View("Dashboard", queryAccount);
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("InvalidPassword", "Invalid password. Please try again.");
+                        return View();
+                    }
                 }
                 else
                 {
                     ModelState.Clear();
-                    ModelState.AddModelError("InvalidPassword", "Invalid password. Please try again.");
+                    ModelState.AddModelError("AccountNotFound", "Invalid login. Please try again.");
                     return View();
                 }
             }
             else
             {
-                ModelState.Clear();
-                ModelState.AddModelError("AccountNotFound", "Invalid login. Please try again.");
                 return View();
             }
         }

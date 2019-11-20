@@ -18,12 +18,13 @@
 <body>
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-6"><img src="~/images/croissant.png"></div>
+            <div class="col-6 p-4">
             <div class="panel panel-success">
                 <div class="panel-heading text-center display-4"><h4>Add A Transaction</h4></div>
                 <div class="panel-body">
                     <form class="p-a-1" asp-action="AddTransaction" method="post">
                         <div asp-validation-summary="All"></div>
-                        
                             @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
                             {
                                 <label class="btn btn-outline-secondary">
@@ -59,5 +60,6 @@
             </div>
             </div>
         </div>
+    </div>
 </body>
 </html>

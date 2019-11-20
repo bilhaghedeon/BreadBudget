@@ -131,8 +131,9 @@ namespace BreadBudget.Controllers
             if (ModelState.IsValid)
             {
                 TransactionRepository.AddForm(form);
-               
-                return View("Conformation", form);
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note);
+            
+                return View("Conformation", newTransaction);
             }
             else
             {

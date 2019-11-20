@@ -7,12 +7,19 @@ namespace BreadBudget.Models
 {
     public class Transaction
     {
-        enum TransactionType { Expense, Income }
+        public string TransactionType { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }
         public string Category { get; set; }
         public string Note { get; set; }
         public int Id { get; set; }
+
+        public Transaction(string name, double amount, string category, string note)
+        {
+
+
+        }
+        
 
     }
 }

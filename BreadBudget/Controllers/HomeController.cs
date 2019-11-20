@@ -16,6 +16,9 @@ namespace BreadBudget.Controllers
     {
         private UserDb _context;
 
+        // current user account 
+        private int _currentUserId { get; set; }
+
         public HomeController(UserDb context)
         {
             _context = context;
@@ -74,22 +77,45 @@ namespace BreadBudget.Controllers
             return View();
         }
 
+        public Boolean ValidateEmail(string email)
+        {
+
+            if(_context.Accounts.Any(a => a.Email == email))
+            {
+                return false;
+            }
+            return true;
+        }
+
         [HttpPost]
         public IActionResult SignUp(SignUp model)
         {
             if (ModelState.IsValid)
             {
+                if (ValidateEmail(model.Email))
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
+                    string extension = Path.GetExtension(model.ProfilePicture.FileName);
+                    fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
+                    string filePath = Path.Combine("wwwroot/images/", fileName);
+                    model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));
+                    Account newAccount = new Account(model.Name, model.Email, model.Password, fileName);
+                    //AccountRepository.AddAccount(newAccount);
 
-                string fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
-                string extension = Path.GetExtension(model.ProfilePicture.FileName);
-                fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
-                string filePath = Path.Combine("wwwroot/images/", fileName);
-                model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));
-                Account newAccount = new Account(model.Name, model.Email, model.Password, fileName);
-                //AccountRepository.AddAccount(newAccount);
+                    _context.Add(newAccount);
+                    _context.SaveChanges();
+                    _currentUserId = _context.Accounts.Where(u => u.Email == newAccount.Email)
+                        .Select(u => u.Id)
+                        .FirstOrDefault();
 
-                _context.Add(newAccount);
-                _context.SaveChanges();
+                }
+
+                else
+                {
+                    ModelState.AddModelError("Email", "Account with this email already exists.");
+                    return View();
+                }
+
 
                 /*
                 string uniqueFileName = null;
@@ -104,7 +130,7 @@ namespace BreadBudget.Controllers
                 AccountRepository.AddAccount(newAccount);
                 RedirectToAction("Index");*/
 
-                return RedirectToAction("DisplayTest");
+                return RedirectToAction("AddTransaction");
 
             }
 
@@ -117,17 +143,19 @@ namespace BreadBudget.Controllers
         [HttpGet]
         public ViewResult AddTransaction()
         {
+            
             return View();
         }
 
 
         [HttpPost]
-        public ViewResult AddTransaction(TransactionForm transactionform)
+        public ViewResult AddTransaction(TransactionForm form)
         {
             if (ModelState.IsValid)
             {
-                TransactionRepository.AddForm(transactionform);
-                return View("Conformation", transactionform);
+                TransactionRepository.AddForm(form);
+               
+                return View("Conformation", form);
             }
             else
             {

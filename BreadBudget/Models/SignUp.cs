@@ -1,39 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace BreadBudget.Models
 {
     public class SignUp
     {
 
-        // first page ask for
-
+        [Required(ErrorMessage = "Please enter your name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please enter your email")]
         public string Email { get; set;  }
 
+        [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
 
-        public string ProfilePicture { get; set; }
+        public IFormFile ProfilePicture { get; set; }
 
-        /* second page ask for general information to start budget */
-
-        // How much do you have saved? 
-        public double Savings { get; set; }
-
-        /* Transactions to get user started with budget */
-
-        // How much income are you making in a month?
-
-        public double monthlyIncome { get; set; }
-
-        // Log an expense: Food, Rent, Miscellaneous
-
-        public bool expenseChosen { get; set; }
-
-        public double expenseAmount { get; set; }
 
 
 

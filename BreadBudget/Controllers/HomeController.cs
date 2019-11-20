@@ -157,10 +157,14 @@ namespace BreadBudget.Controllers
         {
             if (ModelState.IsValid)
             {
-                TransactionRepository.AddForm(form);
-                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note);
-            
-                return View("Conformation", newTransaction);
+                //var account = _context.Accounts.Find(_currentUserId);
+                //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
+                var account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note,account.Transactions.Count);
+                account.Transactions.Add(newTransaction);
+                _context.SaveChanges();
+
+                return View("Conformation", account.Transactions.ElementAt(account.Transactions.Count-1));
             }
             else
             {

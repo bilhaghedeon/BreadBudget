@@ -15,14 +15,17 @@ namespace BreadBudget.Controllers
     {
         public IActionResult Index()
         {
-            
-           
             return View();
         }
+
 
         public IActionResult SignUp()
         {
 
+            return View();
+        }
+        public IActionResult Dashboard()
+        {
 
             return View();
         }
@@ -31,10 +34,33 @@ namespace BreadBudget.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ViewResult AddTransaction()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ViewResult AddTransaction(TransactionForm transactionform)
+        {
+            if (ModelState.IsValid)
+            {
+                TransactionRepository.AddForm(transactionform);
+                return View("Conformation", transactionform);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+     
     }
 }

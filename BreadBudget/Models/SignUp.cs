@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BreadBudget.Models
 {
@@ -14,6 +15,7 @@ namespace BreadBudget.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please enter your email")]
+        
         public string Email { get; set;  }
 
         [Required(ErrorMessage = "Please enter your password")]

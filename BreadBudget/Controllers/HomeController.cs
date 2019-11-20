@@ -44,6 +44,7 @@ namespace BreadBudget.Controllers
             if (queryEmail == true)
             {
                 var queryAccount = _context.Accounts.Any(a => a.Email == email && a.Password == password);
+
                 if (queryAccount == true)
                 {
                     return View("Privacy");
@@ -137,6 +138,11 @@ namespace BreadBudget.Controllers
 
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AllReceipts()
         {
             return View();
         }

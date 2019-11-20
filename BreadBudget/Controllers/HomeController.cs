@@ -113,6 +113,27 @@ namespace BreadBudget.Controllers
             }
         }
 
+        [HttpGet]
+        public ViewResult AddTransaction()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ViewResult AddTransaction(TransactionForm transactionform)
+        {
+            if (ModelState.IsValid)
+            {
+                TransactionRepository.AddForm(transactionform);
+                return View("Conformation", transactionform);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
 
 
         public IActionResult Privacy()

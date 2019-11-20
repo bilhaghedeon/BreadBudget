@@ -70,8 +70,6 @@ namespace BreadBudget.Controllers
 
         public IActionResult SignUp()
         {
-
-
             return View();
         }
 

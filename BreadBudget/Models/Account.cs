@@ -20,6 +20,8 @@ namespace BreadBudget.Models
 
         public string ProfilePicture { get; set; }
 
+        public List<Transaction> Transactions { get; set; }
+
         public Account(string name, string email, string password, string profilePicture)
         {
             Name = name;

@@ -11,8 +11,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>AddTransaction</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <div class="container h-100">
@@ -22,29 +23,37 @@
                 <div class="panel-body">
                     <form class="p-a-1" asp-action="AddTransaction" method="post">
                         <div asp-validation-summary="All"></div>
-                        <div class="form-group">
-                            <label asp-for="Name">Transaction Name:</label>
-                            <input class="form-control" asp-for="Name" />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Amount">Amount :</label>
-                            <input class="form-control" asp-for="Amount" />
-                        </div>
-                        <div class="form-group">
-                            <label>Select the category:</label>
-                            <select class="form-control" asp-for="Category" asp-items="Html.GetEnumSelectList<BreadBudget.Models.TransactionForm.Categories>()">
-                                <option selected="selected" value="">Choose an option</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Note">Notes :</label>
-                            <input class="form-control" asp-for="Note" />
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-primary" type="submit">
-                                Add
-                            </button>
-                        </div>
+                        
+                            @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
+                            {
+                                <label class="btn btn-outline-secondary">
+                                    <input id="radiobtn"type="radio" asp-for="TransactionType" value="@transaction" />
+                                    @transaction
+                                </label>
+                            }
+                            <div class="form-group">
+                                <label asp-for="Name">Transaction Name:</label>
+                                <input class="form-control" asp-for="Name" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Amount">Amount :</label>
+                                <input class="form-control" asp-for="Amount" />
+                            </div>
+                            <div class="form-group">
+                                <label>Select the category:</label>
+                                <select class="form-control" asp-for="Category" asp-items="Html.GetEnumSelectList<BreadBudget.Models.TransactionForm.Categories>()">
+                                    <option selected="selected" value="">Choose an option</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Note">Notes :</label>
+                                <input class="form-control" asp-for="Note" />
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary" type="submit">
+                                    Add
+                                </button>
+                            </div>
                     </form>
                 </div>
             </div>

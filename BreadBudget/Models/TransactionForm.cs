@@ -8,8 +8,11 @@ namespace BreadBudget.Models
 {
     public class TransactionForm
     {
+        public enum TransactionTypes { Expense, Income }
         public enum Categories { Housing, Groceries, Transportation, Clothes, Bills, Food, Health, Miscellaneous}
 
+        [Required(ErrorMessage = "Please select your transaction type")]
+        public string TransactionType { get; set; }
         [Required(ErrorMessage = "Please enter your name.")]
         [StringLength(100 )]
         public string Name { get; set; }

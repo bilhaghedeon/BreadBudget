@@ -123,12 +123,13 @@ namespace BreadBudget.Controllers
 
 
         [HttpPost]
-        public ViewResult AddTransaction(TransactionForm transactionform)
+        public ViewResult AddTransaction(TransactionForm form)
         {
             if (ModelState.IsValid)
             {
-                TransactionRepository.AddForm(transactionform);
-                return View("Conformation", transactionform);
+                TransactionRepository.AddForm(form);
+               
+                return View("Conformation", form);
             }
             else
             {

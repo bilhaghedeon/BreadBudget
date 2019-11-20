@@ -21,6 +21,7 @@ namespace BreadBudget.Controllers
             _context = context;
         }
 
+        // Index page deals with Log In functionality
         [HttpGet]
         public IActionResult Index()
         {
@@ -40,10 +41,14 @@ namespace BreadBudget.Controllers
                 ModelState.AddModelError("Password", "Password cannot be empty");
                 return View();
             }
+
+            // Checks the database for the corresponding account email
             var queryEmail = _context.Accounts.Any(a => a.Email == email);
             if (queryEmail == true)
             {
+                // Checks the database for the corresponding account password
                 var queryAccount = _context.Accounts.Any(a => a.Email == email && a.Password == password);
+
                 if (queryAccount == true)
                 {
                     return View("Privacy");
@@ -70,8 +75,6 @@ namespace BreadBudget.Controllers
 
         public IActionResult SignUp()
         {
-
-
             return View();
         }
 
@@ -140,6 +143,11 @@ namespace BreadBudget.Controllers
 
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AllReceipts()
         {
             return View();
         }

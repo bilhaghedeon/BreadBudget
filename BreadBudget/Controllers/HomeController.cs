@@ -45,8 +45,10 @@ namespace BreadBudget.Controllers
 
                     if (queryAccount == true)
                     {
-                        _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
                         
+                        _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
+
+                        TempData["Account"] = _currentUserId;
                         return View("Dashboard");
                     }
                     else
@@ -69,12 +71,55 @@ namespace BreadBudget.Controllers
             }
         }
 
-        public IActionResult DisplayTest()
+        public async Task<IActionResult> DisplayTest()
         {
-            int id = (int) TempData["Account"];
-            Account hello = _context.Accounts.Find(id);
+            //int id = (int) TempData["Account"];
+            //Account hello = await _context
+            //    .Accounts.Include(s => s.Transactions)
+            //    .FirstOrDefaultAsync(s => s.Id == id);
 
-            return View();
+
+            //List<string> listCategory = new List<string>();
+
+            ////Enum.GetNames(typeof(TransactionForm.Categories));
+            //foreach (var i in hello.Transactions.Select(s => s.Category).Distinct()) {
+            //    listCategory.Add(Enum.GetName(typeof  (TransactionForm.Categories), i));
+            //}
+
+
+            //IEnumerable<string> category = listCategory;
+
+
+            //return View(category);
+
+
+                // to do: find student in database with id passed
+
+                // var student = _context.Students.FirstOrDefault(s => s.Id == id);
+                // await needs to be defined in method 
+                //var student = await  _context.Students.FindAsync(id);
+
+
+                /*
+                 *
+
+                 */
+
+                int id = (int)TempData["Account"];
+                Account hello = _context.Accounts.Find(id);
+
+                var student = await _context
+                    .Accounts
+                    .Include(s => s.Transactions)
+                    .FirstOrDefaultAsync(s => s.Id == hello.Id);
+
+                if (student == null)
+                {
+                    return NotFound();
+                }
+
+                return View(student);
+            
         }
 
         public IActionResult SignUp()
@@ -181,6 +226,7 @@ namespace BreadBudget.Controllers
 
                 _context.SaveChanges();
 
+                TempData["Account"] = account.Id;
                 return View("Dashboard");
             }
             else
@@ -189,7 +235,10 @@ namespace BreadBudget.Controllers
             }
         }
 
-
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

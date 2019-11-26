@@ -27,7 +27,7 @@
                         <div asp-validation-summary="All"></div>
                             @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
                             {
-                                <label class="btn btn-outline-secondary">
+                                <label class="btn btn-outline-secondary m-5">
                                     <input id="radiobtn" type="radio" asp-for="TransactionType" value="@transaction" />
                                     @transaction
                                 </label>

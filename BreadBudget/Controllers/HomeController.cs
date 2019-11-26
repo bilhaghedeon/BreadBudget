@@ -73,7 +73,8 @@ namespace BreadBudget.Controllers
         {
             int id = (int) TempData["Account"];
             Account hello = _context.Accounts.Find(id);
-            return View(hello);
+
+            return View();
         }
 
         public IActionResult SignUp()
@@ -180,7 +181,7 @@ namespace BreadBudget.Controllers
 
                 _context.SaveChanges();
 
-                return View("Conformation", account.Transactions.ElementAt(account.Transactions.Count-1));
+                return View("Dashboard");
             }
             else
             {

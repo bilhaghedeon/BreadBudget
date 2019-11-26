@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BreadBudget.Models.Account>
+﻿@*@model IEnumerable<BreadBudget.Models.Account>*@
+@model BreadBudget.Models.Account 
 
 @{
     ViewData["Title"] = "DisplayTest";
@@ -21,13 +22,15 @@
 
     @*<p>@photoPath</p>*@
     @*<img src="~/images/@Model.ProfilePicture" asp-append-version="true"/>*@
-    @foreach(var account in Model)
+    @*@foreach(var account in Model)
     {
         <p>@account.Name</p>
         <p>@account.Email</p>
         <p>@account.ProfilePicture</p>
 
-    }
+    }*@
+<p> @Model.Name</p>
+   
 
 </body>
 </html>

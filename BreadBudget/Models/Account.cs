@@ -20,7 +20,7 @@ namespace BreadBudget.Models
 
         public string ProfilePicture { get; set; }
 
-        public List<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
 
         public Account(string name, string email, string password, string profilePicture)
         {
@@ -29,6 +29,7 @@ namespace BreadBudget.Models
             Password = password;
             ProfilePicture = profilePicture;
         }
+
 
         public Account(string email, string password)
         {

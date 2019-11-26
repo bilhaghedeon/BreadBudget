@@ -45,7 +45,9 @@ namespace BreadBudget.Controllers
 
                     if (queryAccount == true)
                     {
-                        return View("Dashboard", queryAccount);
+                        _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
+                        
+                        return View("Dashboard");
                     }
                     else
                     {
@@ -69,7 +71,9 @@ namespace BreadBudget.Controllers
 
         public IActionResult DisplayTest()
         {
-            return View(_context.Accounts.ToList());
+            int id = (int) TempData["Account"];
+            Account hello = _context.Accounts.Find(id);
+            return View(hello);
         }
 
         public IActionResult SignUp()
@@ -104,9 +108,13 @@ namespace BreadBudget.Controllers
 
                     _context.Add(newAccount);
                     _context.SaveChanges();
-                    _currentUserId = _context.Accounts.Where(u => u.Email == newAccount.Email)
-                        .Select(u => u.Id)
-                        .FirstOrDefault();
+                   
+                    _currentUserId = newAccount.Id;
+
+                    //_context.Accounts.Where(u => u.Email == newAccount.Email)
+                    //.Select(u => u.Id)
+                    //.FirstOrDefault();
+                    TempData["Account"] = newAccount.Id; 
 
                 }
 
@@ -153,11 +161,23 @@ namespace BreadBudget.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+                _currentUserId = (int)TempData["Account"]; 
                 //var account = _context.Accounts.Find(_currentUserId);
                 //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
-                var account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
-                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note,account.Transactions.Count);
+                Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+
+                List<Transaction> transactions = account.Transactions;
+
+
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note);
+                
                 account.Transactions.Add(newTransaction);
+
+                _context.Accounts.Attach(account);
+                var entry = _context.Entry(account);
+                entry.Collection(a => a.Transactions).IsModified = true;
+
                 _context.SaveChanges();
 
                 return View("Conformation", account.Transactions.ElementAt(account.Transactions.Count-1));

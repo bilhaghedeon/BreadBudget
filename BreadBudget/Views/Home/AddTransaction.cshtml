@@ -28,7 +28,7 @@
                             @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
                             {
                                 <label class="btn btn-outline-secondary">
-                                    <input id="radiobtn"type="radio" asp-for="TransactionType" value="@transaction" />
+                                    <input id="radiobtn" type="radio" asp-for="TransactionType" value="@transaction" />
                                     @transaction
                                 </label>
                             }

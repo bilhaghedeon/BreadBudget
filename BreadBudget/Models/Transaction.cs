@@ -12,19 +12,17 @@ namespace BreadBudget.Models
         public double Amount { get; set; }
         public string Category { get; set; }
         public string Note { get; set; }
-        public int Id { get; set; } 
-        
-       
+        public int Id { get; set; }
 
-        public Transaction(string transactionType, string name, double amount, string category, string note, int id)
+
+
+        public Transaction(string transactionType, string name, double amount, string category, string note)
         {
             TransactionType = transactionType;
             Name = name;
             Amount = amount;
             Category = category;
             Note = note;
-            Id = id;
-
         }
         
 

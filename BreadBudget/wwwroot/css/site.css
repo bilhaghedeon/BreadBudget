@@ -22,9 +22,6 @@ body, html {
     height: 100%;
 }
 
-#radiobtn {
-visibility:hidden;
-}
 
 .border-top {
   border-top: 1px solid #e5e5e5;

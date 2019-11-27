@@ -23,39 +23,65 @@
             <div class="panel panel-success">
                 <div class="panel-heading text-center display-4"><h4>Add A Transaction</h4></div>
                 <div class="panel-body">
-                    <form class="p-a-1" asp-action="AddTransaction" method="post">
+                    <img id="receiptPicture" />
+                    <form class="p-a-1" asp-action="AddTransaction" enctype="multipart/form-data" method="post">
                         <div asp-validation-summary="All"></div>
-                            @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
-                            {
-                                <label class="btn btn-outline-secondary m-5">
-                                    <input id="radiobtn" type="radio" asp-for="TransactionType" value="@transaction" />
-                                    @transaction
-                                </label>
-                            }
-                            <div class="form-group">
-                                <label asp-for="Name">Transaction Name:</label>
-                                <input class="form-control" asp-for="Name" />
+                        @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
+                        {
+                            <label class="btn btn-outline-secondary m-5">
+                                <input id="radiobtn" type="radio" asp-for="TransactionType" value="@transaction" />
+                                @transaction
+                            </label>
+                        }
+                        <div class="form-group">
+                            <label asp-for="Name">Transaction Name:</label>
+                            <input class="form-control" asp-for="Name" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Amount">Amount :</label>
+                            <input class="form-control" asp-for="Amount" />
+                        </div>
+                        <div class="form-group">
+                            <label>Select the category:</label>
+                            <select class="form-control" asp-for="Category" asp-items="Html.GetEnumSelectList<BreadBudget.Models.TransactionForm.Categories>()">
+                                <option selected="selected" value="">Choose an option</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Note">Notes :</label>
+                            <input class="form-control" asp-for="Note" />
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Receipt" class="col-sm-3 col-form-label">Profile Picture: </label>
+                            <div class="col-sm-9">
+                                <div class="custom-file">
+                                    <input asp-for="Receipt" class="form-control custom-file-input">
+                                    <label id="#recieptLabel"class="custom-file-label">Choose Profile Picture...</label>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Amount">Amount :</label>
-                                <input class="form-control" asp-for="Amount" />
-                            </div>
-                            <div class="form-group">
-                                <label>Select the category:</label>
-                                <select class="form-control" asp-for="Category" asp-items="Html.GetEnumSelectList<BreadBudget.Models.TransactionForm.Categories>()">
-                                    <option selected="selected" value="">Choose an option</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Note">Notes :</label>
-                                <input class="form-control" asp-for="Note" />
-                            </div>
-                            <div class="text-center">
-                                <button class="btn btn-primary" type="submit">
-                                    Add
-                                </button>
-                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary" type="submit">
+                                Add
+                            </button>
+                        </div>
                     </form>
+                    @section Scripts{
+                        <script>
+
+                            $(document).ready(function () {
+                                $('.custom-file-input').on("change", function () {
+                                    var fileName = $(this).val().split("\\").pop();
+                                    $(this).next('.custom-file-label').html(fileName);
+                                    // https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+                                    $("#receiptPicture").attr("src", URL.createObjectURL(event.target.files[0]));
+                                    $("#receiptLabel").text(fileName)
+                                });
+                            });
+
+
+                        </script>
+                    }
                 </div>
             </div>
             </div>

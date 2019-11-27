@@ -73,63 +73,64 @@ namespace BreadBudget.Controllers
 
         public async Task<IActionResult> DisplayTest()
         {
-            //int id = (int) TempData["Account"];
-            //Account hello = await _context
-            //    .Accounts.Include(s => s.Transactions)
-            //    .FirstOrDefaultAsync(s => s.Id == id);
+            Account hello = _context.Accounts.Find(_currentUserId);
 
+            var student = await _context
+                .Accounts
+                .Include(s => s.Transactions)
+                .FirstOrDefaultAsync(s => s.Id == hello.Id);
 
-            //List<string> listCategory = new List<string>();
-
-            ////Enum.GetNames(typeof(TransactionForm.Categories));
-            //foreach (var i in hello.Transactions.Select(s => s.Category).Distinct()) {
-            //    listCategory.Add(Enum.GetName(typeof  (TransactionForm.Categories), i));
-            //}
-
-
-            //IEnumerable<string> category = listCategory;
-
-
-            //return View(category);
-
-
-                // to do: find student in database with id passed
-
-                // var student = _context.Students.FirstOrDefault(s => s.Id == id);
-                // await needs to be defined in method 
-                //var student = await  _context.Students.FindAsync(id);
-
-
-                /*
-                 *
-
-                 */
-
-                //int id = (int)TempData["Account"];
-                Account hello = _context.Accounts.Find(_currentUserId);
-
-                var student = await _context
-                    .Accounts
-                    .Include(s => s.Transactions)
-                    .FirstOrDefaultAsync(s => s.Id == hello.Id);
-
-                if (student == null)
-                {
-                    return NotFound();
-                }
-            List<string> categories = new List<string>();
-            foreach (var category in hello.Transactions.Select(s => s.Category).Distinct()) {
-                categories.Add(Enum.GetName(typeof(BreadBudget.Models.TransactionForm.Categories), Int32.Parse(category)));
-
-
+            if (student == null)
+            {
+                return NotFound();
             }
 
 
-            IEnumerable<string> categoriesIEnum = categories;
 
-                return View(categoriesIEnum);
-           
-            
+            var lstModel = new List<SimpleReportViewModel>();
+
+
+            Dictionary<string, double> categoryAmounts = new Dictionary<string, double>();
+            IEnumerable<string> categories = hello.Transactions.Select(s => s.Category).Distinct().ToList();
+
+
+            double totalQuantity = 0;
+
+            foreach (var t in hello.Transactions)
+            {
+
+                totalQuantity += t.Amount;
+
+                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(t.Category));
+
+
+                if (categoryAmounts.ContainsKey(cat))
+                {
+                    categoryAmounts[cat] = categoryAmounts[cat] + t.Amount;
+                }
+                else
+                {
+                    categoryAmounts.Add(cat, t.Amount);
+                }
+
+            }
+
+            foreach (var c in categories)
+            {
+
+                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
+
+                lstModel.Add(new SimpleReportViewModel
+                {
+                    DimensionOne = cat,
+                    Quantity = (int)Math.Round((categoryAmounts[cat]))
+
+                });
+            }
+            IEnumerable<SimpleReportViewModel> categoriesIEnum = lstModel;
+            return View(categoriesIEnum);
+
+
         }
 
         public IActionResult SignUp()
@@ -225,8 +226,13 @@ namespace BreadBudget.Controllers
 
                 List<Transaction> transactions = account.Transactions;
 
+                string fileName = Path.GetFileNameWithoutExtension(form.Receipt.FileName);
+                string extension = Path.GetExtension(form.Receipt.FileName);
+                fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
+                string filePath = Path.Combine("wwwroot/images/", fileName);
+                form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
 
-                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note);
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note, fileName);
                 
                 account.Transactions.Add(newTransaction);
 

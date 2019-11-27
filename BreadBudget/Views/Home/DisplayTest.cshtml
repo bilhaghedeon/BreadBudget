@@ -1,4 +1,10 @@
-﻿@model IEnumerable<string>
+﻿@using System.Linq;
+@model IEnumerable<SimpleReportViewModel>
+@{ 
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select( x => x.DimensionOne ).ToList() );
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject( Model.Select( x => x.Quantity ).ToList() );
+    
+}
 @*@model BreadBudget.Models.Account*@
 
 @{
@@ -15,90 +21,94 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.default-v2.min.css" />
-
-    <script src="https://kendo.cdn.telerik.com/2019.3.1023/js/jquery.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2019.3.1023/js/kendo.all.min.js"></script>
 </head>
 <body>
 
     <h1>Monthly Breakdown: </h1>
-    
-    @foreach (var category in Model){
+    <div class="box-body">
 
-
-       @* <p @Enum.GetName(typeof(BreadBudget.Models.TransactionForm.Categories),Int32.Parse(category))*@
-        
-        <p>@category</p>
-    }
-<script>
-    jQuery(document).ready(function () {
-        var categories = @Model.ToArray();
-
-    });
-</script>
-
-
-
-
-    @*<div class="demo-section k-content wide">
-        <div id="chart"></div>
-
-    </div>*@
-    @*<script>
-        var data = [
-            {
-                "source": "Hydro",
-                "percentage": 22,
-                "explode": true
-            },
-            {
-                "source": "Solar",
-                "percentage": 2
-            },
-            {
-                "source": "Nuclear",
-                "percentage": 49
-            },
-            {
-                "source": "Wind",
-                "percentage": 27
-            }
-        ];
-
-        
-
-        function createChart() {
-            $("#chart").kendoChart({
-                title: {
-                    text: "Break-up of Spain Electricity Production for 2008"
-                },
-                legend: {
-                    position: "bottom"
-                },
-                dataSource: {
-                    data: data
-                },
-                series: [{
-                    type: "pie",
-                    field: "percentage",
-                    categoryField: "source",
-                    explodeField: "explode"
-                }],
-                seriesColors: ["#03a9f4", "#ff9800", "#fad84a", "#4caf50"],
-                tooltip: {
-                    visible: true,
-                    template: "${ category } - ${ value }%"
-                }
-            });
-        }
-
-        $(document).ready(createChart);
-        $(document).bind("kendo:skinChange", createChart);
-    </script>*@
-
-
-
+        <div class="chart-container">
+            <canvas id="chart" style="width:90%; height:300px"></canvas>
+        </div>
+    </div>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+
+        $(function () {
+    var chartName = "chart";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var data = {
+                labels: @Html.Raw(XLabels),
+                datasets: [{
+                    label: "Drinks Chart",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YValues)
+    }]
+            };
+
+var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+}],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+       var myChart = new  Chart(ctx, {
+                
+                data: data,
+                type:'pie'
+
+            });
+        });
+</script>
 

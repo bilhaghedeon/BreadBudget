@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace BreadBudget.Models
 {
@@ -30,6 +31,8 @@ namespace BreadBudget.Models
         public string Note { get; set; }
 
         public int Id { get; set; }
+
+        public IFormFile Receipt { get; set; }
 
 
     }

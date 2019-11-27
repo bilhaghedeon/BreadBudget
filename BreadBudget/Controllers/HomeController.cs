@@ -117,8 +117,18 @@ namespace BreadBudget.Controllers
                 {
                     return NotFound();
                 }
+            List<string> categories = new List<string>();
+            foreach (var category in hello.Transactions.Select(s => s.Category).Distinct()) {
+                categories.Add(Enum.GetName(typeof(BreadBudget.Models.TransactionForm.Categories), Int32.Parse(category)));
 
-                return View(student);
+
+            }
+
+
+            IEnumerable<string> categoriesIEnum = categories;
+
+                return View(categoriesIEnum);
+           
             
         }
 

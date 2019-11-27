@@ -1,5 +1,5 @@
-﻿@*@model IEnumerable<string>*@
-@model BreadBudget.Models.Account
+﻿@model IEnumerable<string>
+@*@model BreadBudget.Models.Account*@
 
 @{
     ViewData["Title"] = "DisplayTest";
@@ -24,13 +24,16 @@
 
     <h1>Monthly Breakdown: </h1>
     
-    @foreach (var category in Model.Transactions.Select(s=> s.Category).Distinct()){
+    @foreach (var category in Model){
 
-        <p>@Enum.GetName(typeof(BreadBudget.Models.TransactionForm.Categories),Int32.Parse(category))</p>
+
+       @* <p @Enum.GetName(typeof(BreadBudget.Models.TransactionForm.Categories),Int32.Parse(category))*@
         
+        <p>@category</p>
     }
 <script>
     jQuery(document).ready(function () {
+        var categories = @Model.ToArray();
 
     });
 </script>

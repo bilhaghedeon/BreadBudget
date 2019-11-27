@@ -17,7 +17,7 @@ namespace BreadBudget.Controllers
         private UserDb _context;
 
         // current user account 
-        private int _currentUserId { get; set; }
+        private static int _currentUserId { get; set; }
 
         public HomeController(UserDb context)
         {
@@ -48,7 +48,7 @@ namespace BreadBudget.Controllers
                         
                         _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
 
-                        TempData["Account"] = _currentUserId;
+                       // TempData["Account"] = _currentUserId;
                         return View("Dashboard");
                     }
                     else
@@ -105,8 +105,8 @@ namespace BreadBudget.Controllers
 
                  */
 
-                int id = (int)TempData["Account"];
-                Account hello = _context.Accounts.Find(id);
+                //int id = (int)TempData["Account"];
+                Account hello = _context.Accounts.Find(_currentUserId);
 
                 var student = await _context
                     .Accounts
@@ -160,7 +160,7 @@ namespace BreadBudget.Controllers
                     //_context.Accounts.Where(u => u.Email == newAccount.Email)
                     //.Select(u => u.Id)
                     //.FirstOrDefault();
-                    TempData["Account"] = newAccount.Id; 
+                   // TempData["Account"] = newAccount.Id; 
 
                 }
 
@@ -208,7 +208,7 @@ namespace BreadBudget.Controllers
             if (ModelState.IsValid)
             {
                 
-                _currentUserId = (int)TempData["Account"]; 
+                 
                 //var account = _context.Accounts.Find(_currentUserId);
                 //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
                 Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
@@ -226,7 +226,7 @@ namespace BreadBudget.Controllers
 
                 _context.SaveChanges();
 
-                TempData["Account"] = account.Id;
+                
                 return View("Dashboard");
             }
             else

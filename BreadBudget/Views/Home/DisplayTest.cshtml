@@ -23,13 +23,19 @@
 <body>
 
     <h1>Monthly Breakdown: </h1>
-
+    
     @foreach (var category in Model.Transactions.Select(s=> s.Category).Distinct()){
 
         <p>@Enum.GetName(typeof(BreadBudget.Models.TransactionForm.Categories),Int32.Parse(category))</p>
-
         
     }
+<script>
+    jQuery(document).ready(function () {
+
+    });
+</script>
+
+
 
 
     @*<div class="demo-section k-content wide">

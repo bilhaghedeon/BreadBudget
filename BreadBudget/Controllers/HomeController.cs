@@ -266,6 +266,11 @@ namespace BreadBudget.Controllers
             return View();
         }
 
+        public IActionResult Rent()
+        {
+            return View(ReceiptRepository.GetTransactions().Where(r => r.Category == "Rent"));
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

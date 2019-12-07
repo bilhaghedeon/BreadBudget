@@ -10,8 +10,8 @@ namespace BreadBudget.Models
         public static IEnumerable<Transaction> GetTransactions()
         {
             var transaction = new Transaction("hi","",10.00,"Rent","","");
-            var transaction1 = new Transaction("hello","",10.00,"","","");
-            var transaction2 = new Transaction("hey","",10.00,"","","");
+            var transaction1 = new Transaction("hello","",10.00,"Groceries","","");
+            var transaction2 = new Transaction("hey","",10.00,"Bills","","");
             return new List<Transaction>
             {
                 transaction,

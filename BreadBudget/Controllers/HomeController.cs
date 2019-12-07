@@ -266,9 +266,34 @@ namespace BreadBudget.Controllers
             return View();
         }
 
-        public IActionResult Rent()
+        public async Task<IActionResult> Receipt(string category)
         {
-            return View(ReceiptRepository.GetTransactions().Where(r => r.Category == "Rent"));
+            var account = await _context
+                .Accounts
+                .Include(a=> a.Transactions)
+                .FirstOrDefaultAsync(a=> a.Id == _currentUserId);
+            var transactions = account.Transactions.Where(t => t.Category == category).ToList();
+
+            //List<Transaction> transactions = new List<Transaction>();
+
+            //foreach (var transaction in account.Transactions) {
+            //    if (transaction.Category == "0") {
+            //        transactions.Add(transaction);
+            //    }
+            //}
+
+
+            //List<Transaction> transactions = account.Transactions.Where(t => t.Category == category).ToList();
+            /*foreach (var transaction in account.Transactions)
+                {
+                    if (transaction.Category == category)
+                    {
+                        transactions.Add(transaction);
+                    }
+                }*/
+
+            //return View(ReceiptRepository.GetTransactions().Where(r => r.Category == category));
+            return View(transactions);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

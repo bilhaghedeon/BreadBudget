@@ -56,7 +56,7 @@
                             <div class="col-sm-9">
                                 <div class="custom-file">
                                     <input asp-for="Receipt" class="form-control custom-file-input">
-                                    <label id="#recieptLabel"class="custom-file-label">Choose Profile Picture...</label>
+                                    <label id="recieptLabel"class="custom-file-label">Choose Profile Picture...</label>
                                 </div>
                             </div>
                         </div>
@@ -66,6 +66,7 @@
                             </button>
                         </div>
                     </form>
+
                     @section Scripts{
                         <script>
 
@@ -75,7 +76,7 @@
                                     $(this).next('.custom-file-label').html(fileName);
                                     // https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
                                     $("#receiptPicture").attr("src", URL.createObjectURL(event.target.files[0]));
-                                    $("#receiptLabel").text(fileName)
+                                   
                                 });
                             });
 

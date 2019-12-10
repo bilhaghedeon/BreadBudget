@@ -1,0 +1,46 @@
+﻿@model NewsAPI.Models.ArticlesResult
+
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>News</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+</head>
+<body>
+
+    <div class="container m-5">
+
+        <h1>The Daily Bread</h1>
+
+        <div class="container-fluid">
+            <div class="row">
+
+                @foreach (var article in Model.Articles)
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="@article.UrlToImage" alt="Image unavailable">
+                        <div class="card-body">
+                            <h5 class="card-title">@article.Title</h5>
+                            <p class="card-title">Publisher: @article.Author</p>
+                            <p>Date: @article.PublishedAt</p>
+                            <p class="card-text">@article.Description</p>
+                            <a href="@article.Url" class="btn btn-primary">Read</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+   
+</body>
+</html>

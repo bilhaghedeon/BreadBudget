@@ -8,6 +8,9 @@ using BreadBudget.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using NewsAPI;
+using NewsAPI.Models;
+using NewsAPI.Constants;
 
 namespace BreadBudget.Controllers
 {
@@ -296,10 +299,32 @@ namespace BreadBudget.Controllers
             return View(transactions);
         }
 
+
+        public IActionResult News()
+        {
+
+            var newsApiClient = new NewsApiClient("465ab82acc5b43999381d54823215a61");
+            var articlesResponse = newsApiClient.GetEverything(new EverythingRequest
+            {
+                Q = "Budget, Budgeting, Finance",
+                SortBy = SortBys.Relevancy,
+                Language = Languages.EN
+            });
+
+
+            return View("News", articlesResponse);
+
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+
     }
 }

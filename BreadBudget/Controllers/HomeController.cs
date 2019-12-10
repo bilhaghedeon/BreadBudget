@@ -300,11 +300,11 @@ namespace BreadBudget.Controllers
         }
 
 
-        public IActionResult News()
+        public async Task<IActionResult> News()
         {
 
             var newsApiClient = new NewsApiClient("465ab82acc5b43999381d54823215a61");
-            var articlesResponse = newsApiClient.GetEverything(new EverythingRequest
+            var articlesResponse = await newsApiClient.GetEverythingAsync(new EverythingRequest
             {
                 Q = "Budget, Budgeting, Finance",
                 SortBy = SortBys.Relevancy,

@@ -10,24 +10,27 @@ namespace BreadBudget.Models
     public class TransactionForm
     {
         public enum TransactionTypes { Expense, Income }
-        public enum Categories { Housing, Groceries, Transportation, Clothes, Bills, Food, Health, Miscellaneous}
+        public enum Categories { Housing, Groceries, Transportation, Clothes, Bills, Food, Health, Miscellaneous, Income }
 
-        [Required(ErrorMessage = "Please select your transaction type")]
+        [Required(ErrorMessage = "Please select your transaction type.")]
         public string TransactionType { get; set; }
-        [Required(ErrorMessage = "Please enter your name.")]
-        [StringLength(100 )]
+        [Required(ErrorMessage = "Please name your transaction.")]
+        [StringLength(100)]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Please enter your an amount.")]
-        [RegularExpression(@"^\d{0,8}(\.\d{1,2})?$",
-            ErrorMessage = "Please enter a valid amount.")]
-        public double Amount { get; set; }
 
-        [Required(ErrorMessage = "Please choose a device type")]
+        
+        [RegularExpression(@"^\d{0,8}(\.\d{1,4})?$",
+            ErrorMessage = "Please enter a valid amount.")]
+        [Required(ErrorMessage = "Please enter an amount.")]
+        public double? Amount { get; set; }
+       
+
+        [Required(ErrorMessage = "Please choose a Category type")]
         [EnumDataType(typeof(Categories))]
         public string Category { get; set; }
 
-        [Required(ErrorMessage = "Please enter your name.")]
-        [StringLength(300)]
+        
+        [StringLength(50, ErrorMessage ="Please enter a shorter note.")]
         public string Note { get; set; }
 
         public int Id { get; set; }

@@ -52,7 +52,7 @@ namespace BreadBudget.Controllers
                         _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
 
                        // TempData["Account"] = _currentUserId;
-                        return View("Dashboard");
+                        return RedirectToAction("Dashboard");
                     }
                     else
                     {
@@ -235,7 +235,7 @@ namespace BreadBudget.Controllers
                 string filePath = Path.Combine("wwwroot/images/", fileName);
                 form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
 
-                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note, fileName);
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount ?? 0,form.Category,form.Note, fileName);
                 
                 account.Transactions.Add(newTransaction);
 
@@ -256,7 +256,9 @@ namespace BreadBudget.Controllers
 
         public IActionResult Dashboard()
         {
-            return View();
+            Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+
+            return View(account);
         }
 
         public IActionResult Privacy()
@@ -317,6 +319,12 @@ namespace BreadBudget.Controllers
         }
 
 
+        public IActionResult ImageTest()
+        {
+            return View();
+        }
+
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

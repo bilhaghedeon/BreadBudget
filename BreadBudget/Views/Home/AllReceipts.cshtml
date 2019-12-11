@@ -8,145 +8,125 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <title>AllReceipts</title>
 </head>
 <body>
-    <!-- Grid row -->
-    <div class="row">
-
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-12 mb-4">
+    <div class="card-group">
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="0" type="hidden" />
+                <input name="category" value="0" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Housing</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Housing</p>
-                </button>
             </form>
         </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="1" type="hidden" />
+                <input name="category" value="1" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Groceries</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Groceries</p>
-                </button>
             </form>
-
         </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="2" type="hidden" />
+                <input name="category" value="2" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Transportation</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Transportation</p>
-                </button>
             </form>
-
         </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="3" type="hidden" />
+                <input name="category" value="3" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Clothes</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Clothes</p>
-                </button>
             </form>
+        </div>
+    </div>
 
+    <div class="card-group">
+        <div>
+            <form asp-action="Receipt" method="post">
+                <input name="category" value="4" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Bills</p>
+                        </div>
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="4" type="hidden" />
+                <input name="category" value="5" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Food</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Bills</p>
-                </button>
             </form>
-
         </div>
 
-        <!-- Grid column -->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="5" type="hidden" />
+                <input name="category" value="6" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Health</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Food</p>
-                </button>
             </form>
-
         </div>
 
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
+        <div>
             <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="6" type="hidden" />
+                <input name="category" value="7" type="hidden" />
+                <div class="card text-center" style="width: 13rem; margin: 30px;">
+                    <button style="background-color: white; border: none" type="submit">
+                        <img class="card-img-top" src="~/images/1.png" />
+                        <div class="card-body">
+                            <p>Micellaneous</p>
+                        </div>
+                    </button>
                 </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Health</p>
-                </button>
             </form>
-
         </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <!--Modal: Name-->
-            <form asp-action="Receipt" method="post">
-                <div>
-                    <input name="category" value="7" type="hidden" />
-                </div>
-                <button type="submit">
-                    @*<img class="img-fluid z-depth-1" src="~/images/3.png"
-                         data-toggle="modal" data-target="#modal1">*@
-                    <p>Miscellaneous</p>
-                </button>
-            </form>
-
-        </div>
-
-        <!-- Grid column -->
     </div>
 </body>
 </html>

@@ -33,9 +33,9 @@
                     <th>@receipt.TransactionType</th>
                     <th>@receipt.Name</th>
                     <th>@receipt.Amount</th>
-                    <th>@receipt.Category</th>
                     <th>@receipt.Note</th>
-                    <th><a class="image-link" href="https://cdn.shopify.com/s/files/1/2018/8867/files/matteo-paganelli-39971_530x.jpg">View Receipt</a></th>
+                    @*<th><a class="image-link" href="https://cdn.shopify.com/s/files/1/2018/8867/files/matteo-paganelli-39971_530x.jpg">View Receipt</a></th>*@
+                    <th><a class="image-link" href="~/images/@receipt.Receipt">View Receipt</a></th>
                 </tr>
             }
         </tbody>

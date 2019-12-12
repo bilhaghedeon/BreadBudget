@@ -324,7 +324,19 @@ namespace BreadBudget.Controllers
             return View();
         }
 
-       
+        public async Task<IActionResult> AllTransactions()
+        {
+
+            var account = await _context
+               .Accounts
+               .Include(a => a.Transactions)
+               .FirstOrDefaultAsync(a => a.Id == _currentUserId);
+
+
+            return View(account.Transactions.ToList());
+
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

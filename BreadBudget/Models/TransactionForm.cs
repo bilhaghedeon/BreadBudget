@@ -27,7 +27,7 @@ namespace BreadBudget.Models
         public string Category { get; set; }
 
         [Required(ErrorMessage = "Please enter your name.")]
-        [StringLength(300)]
+        [StringLength(100)]
         public string Note { get; set; }
 
         public int Id { get; set; }

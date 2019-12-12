@@ -223,7 +223,7 @@ namespace BreadBudget.Controllers
 
 
         [HttpPost]
-        public ViewResult AddTransaction(TransactionForm form)
+        public IActionResult AddTransaction(TransactionForm form)
         {
             if (ModelState.IsValid)
             {
@@ -252,7 +252,7 @@ namespace BreadBudget.Controllers
                 _context.SaveChanges();
 
                 
-                return View("Dashboard");
+                return RedirectToAction("Dashboard");
             }
             else
             {

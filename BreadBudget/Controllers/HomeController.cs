@@ -48,11 +48,11 @@ namespace BreadBudget.Controllers
 
                     if (queryAccount == true)
                     {
-
+                        
                         _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
 
-                        // TempData["Account"] = _currentUserId;
-                        return View("Dashboard");
+                       // TempData["Account"] = _currentUserId;
+                        return RedirectToAction("Dashboard");
                     }
                     else
                     {
@@ -76,10 +76,6 @@ namespace BreadBudget.Controllers
 
         public async Task<IActionResult> DisplayTest()
         {
-            if (_currentUserId == 0)
-            {
-                return View("Errors");
-            }
             Account hello = _context.Accounts.Find(_currentUserId);
 
             var student = await _context
@@ -126,16 +122,13 @@ namespace BreadBudget.Controllers
             {
 
                 string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
-                if (c != "Income")
+
+                lstModel.Add(new SimpleReportViewModel
                 {
+                    DimensionOne = cat,
+                    Quantity = (int)Math.Round((categoryAmounts[cat]))
 
-                    lstModel.Add(new SimpleReportViewModel
-                    {
-                        DimensionOne = cat,
-                        Quantity = (int)Math.Round((categoryAmounts[cat]))
-
-                    });
-                }
+                });
             }
             IEnumerable<SimpleReportViewModel> categoriesIEnum = lstModel;
             return View(categoriesIEnum);
@@ -151,7 +144,7 @@ namespace BreadBudget.Controllers
         public Boolean ValidateEmail(string email)
         {
 
-            if (_context.Accounts.Any(a => a.Email == email))
+            if(_context.Accounts.Any(a => a.Email == email))
             {
                 return false;
             }
@@ -175,13 +168,13 @@ namespace BreadBudget.Controllers
 
                     _context.Add(newAccount);
                     _context.SaveChanges();
-
+                   
                     _currentUserId = newAccount.Id;
 
                     //_context.Accounts.Where(u => u.Email == newAccount.Email)
                     //.Select(u => u.Id)
                     //.FirstOrDefault();
-                    // TempData["Account"] = newAccount.Id; 
+                   // TempData["Account"] = newAccount.Id; 
 
                 }
 
@@ -216,13 +209,9 @@ namespace BreadBudget.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddTransaction()
+        public ViewResult AddTransaction()
         {
-            if (_currentUserId == 0)
-            {
-                return View("Errors");
-            }
-
+            
             return View();
         }
 
@@ -230,11 +219,10 @@ namespace BreadBudget.Controllers
         [HttpPost]
         public ViewResult AddTransaction(TransactionForm form)
         {
-
             if (ModelState.IsValid)
             {
-
-
+                
+                 
                 //var account = _context.Accounts.Find(_currentUserId);
                 //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
                 Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
@@ -247,11 +235,8 @@ namespace BreadBudget.Controllers
                 string filePath = Path.Combine("wwwroot/images/", fileName);
                 form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
 
-
-
-
-                Transaction newTransaction = new Transaction(form.TransactionType, form.Name, form.Amount ?? 0, form.Category, form.Note, fileName);
-
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount ?? 0,form.Category,form.Note, fileName);
+                
                 account.Transactions.Add(newTransaction);
 
                 _context.Accounts.Attach(account);
@@ -260,7 +245,7 @@ namespace BreadBudget.Controllers
 
                 _context.SaveChanges();
 
-
+                
                 return View("Dashboard");
             }
             else
@@ -269,14 +254,11 @@ namespace BreadBudget.Controllers
             }
         }
 
-        public IActionResult TesterView()
-        {
-            return View();
-        }
-
         public IActionResult Dashboard()
         {
-            return View();
+            Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+
+            return View(account);
         }
 
         public IActionResult Privacy()
@@ -285,25 +267,16 @@ namespace BreadBudget.Controllers
         }
 
         public IActionResult AllReceipts()
-
         {
-            if (_currentUserId == 0)
-            {
-                return View("Errors");
-            }
             return View();
         }
 
         public async Task<IActionResult> Receipt(string category)
         {
-            if (_currentUserId == 0)
-            {
-                return View("Errors");
-            }
             var account = await _context
                 .Accounts
-                .Include(a => a.Transactions)
-                .FirstOrDefaultAsync(a => a.Id == _currentUserId);
+                .Include(a=> a.Transactions)
+                .FirstOrDefaultAsync(a=> a.Id == _currentUserId);
             var transactions = account.Transactions.Where(t => t.Category == category).ToList();
 
             //List<Transaction> transactions = new List<Transaction>();
@@ -346,6 +319,12 @@ namespace BreadBudget.Controllers
         }
 
 
+        public IActionResult ImageTest()
+        {
+            return View();
+        }
+
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

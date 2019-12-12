@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "SignUp";
-  
+    Layout = "_BasicLayout";
+
 }
 
 <!DOCTYPE html>
@@ -21,7 +22,7 @@
         <div class="display-4 my-2 text-center">Sign Up</div>
         <div class="row container">
             <div class="col-md-6 align-self-center ">
-                <img class="round-img m-0 rounded-circle " id="profilePicture"  src="~/images/baker.png"/>
+                <img class="round-img m-0 rounded-circle " id="profilePicture"  src="~/images/app-images/baker.png"/>
                 <form class="p-a-1" enctype="multipart/form-data" asp-action="SignUp" method="post">
                     <div asp-validation-summary="All" id="errors"></div>
                     <div id="fileError"></div>
@@ -104,7 +105,7 @@
 
             </div>
             <div class="col-md-4 align-bottom my-5">
-                <img id="signInImage" class="m-5"src="~/images/toasterPiggyBank.png">
+                <img id="signInImage" class="m-5"src="~/images/app-images/toasterPiggyBank.png">
             </div>
          </div>
     </div>

@@ -16,7 +16,7 @@
     <div class="card-group">
         @for (int i = 0; i < Model.Count; i++)
         {
-            string link = String.Format("/images/{0}.png", Model[i]);
+            string link = String.Format("/images/app-images/{0}.png", Model[i]);
 
             <div>
                 <form asp-action="TransactionByCategory" method="post">

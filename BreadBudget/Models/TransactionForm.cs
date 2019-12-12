@@ -14,7 +14,7 @@ namespace BreadBudget.Models
 
         [Required(ErrorMessage = "Please select your transaction type.")]
         public string TransactionType { get; set; }
-        [Required(ErrorMessage = "Please enter a trasnaction name.")]
+        [Required(ErrorMessage = "Please enter a transaction name.")]
         [StringLength(100 )]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter an amount.")]

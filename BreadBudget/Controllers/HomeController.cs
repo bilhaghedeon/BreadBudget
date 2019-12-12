@@ -76,7 +76,7 @@ namespace BreadBudget.Controllers
             }
         }
 
-        public async Task<IActionResult> DisplayTest()
+        public async Task<IActionResult> MonthlyBreakdown()
         {
             if (_currentUserId == 0) {
                 return View("Errors");
@@ -405,7 +405,7 @@ namespace BreadBudget.Controllers
         public IActionResult SignOut()
         {
             _currentUserId = 0;
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
 

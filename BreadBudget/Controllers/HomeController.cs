@@ -20,7 +20,7 @@ namespace BreadBudget.Controllers
         private readonly UserDb _context;
 
         // current user account 
-        private static int CurrentUserId { get; set; }
+        private static int _currentUserId { get; set; }
 
         public HomeController(UserDb context)
         {
@@ -49,7 +49,7 @@ namespace BreadBudget.Controllers
                     if (queryAccount == true)
                     {
                         
-                        CurrentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
+                        _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
 
                        // TempData["Account"] = _currentUserId;
                         return RedirectToAction("Dashboard");
@@ -76,7 +76,10 @@ namespace BreadBudget.Controllers
 
         public async Task<IActionResult> DisplayTest()
         {
-            Account hello = _context.Accounts.Find(CurrentUserId);
+            if (_currentUserId == 0) {
+                return View("Errors");
+            }
+            Account hello = _context.Accounts.Find(_currentUserId);
 
             var student = await _context
                 .Accounts
@@ -169,7 +172,7 @@ namespace BreadBudget.Controllers
                     _context.Add(newAccount);
                     _context.SaveChanges();
                    
-                    CurrentUserId = newAccount.Id;
+                    _currentUserId = newAccount.Id;
 
                     //_context.Accounts.Where(u => u.Email == newAccount.Email)
                     //.Select(u => u.Id)
@@ -211,7 +214,10 @@ namespace BreadBudget.Controllers
         [HttpGet]
         public ViewResult AddTransaction()
         {
-            
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
             return View();
         }
 
@@ -225,7 +231,7 @@ namespace BreadBudget.Controllers
                  
                 //var account = _context.Accounts.Find(_currentUserId);
                 //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
-                Account account = _context.Accounts.SingleOrDefault(a => a.Id == CurrentUserId);
+                Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
 
                 List<Transaction> transactions = account.Transactions;
 
@@ -256,7 +262,11 @@ namespace BreadBudget.Controllers
 
         public IActionResult Dashboard()
         {
-            Account account = _context.Accounts.SingleOrDefault(a => a.Id == CurrentUserId);
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
+            Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
 
             return View(account);
         }
@@ -268,15 +278,23 @@ namespace BreadBudget.Controllers
 
         public IActionResult AllCategories()
         {
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
             return View();
         }
 
         public async Task<IActionResult> TransactionByCategory(string category)
         {
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
             var account = await _context
                 .Accounts
                 .Include(a=> a.Transactions)
-                .FirstOrDefaultAsync(a=> a.Id == CurrentUserId);
+                .FirstOrDefaultAsync(a=> a.Id == _currentUserId);
             var transactions = account.Transactions.Where(t => t.Category == category).ToList();
 
             //List<Transaction> transactions = new List<Transaction>();
@@ -304,6 +322,10 @@ namespace BreadBudget.Controllers
 
         public async Task<IActionResult> News()
         {
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
 
             var newsApiClient = new NewsApiClient("465ab82acc5b43999381d54823215a61");
             var articlesResponse = await newsApiClient.GetEverythingAsync(new EverythingRequest
@@ -326,6 +348,10 @@ namespace BreadBudget.Controllers
 
         public async Task<IActionResult> AllTransactions()
         {
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
 
             var account = await _context
                .Accounts

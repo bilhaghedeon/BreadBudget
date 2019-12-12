@@ -11,16 +11,17 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Sign Up</title>
-    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
-    <div class="container h-100">
-        <div class="panel panel-success">
-            <div class="panel-heading text-center"><h4>Sign Up</h4></div>
-            <div class="panel-body">
-                <img class="round-img m-0" id="profilePicture"/>
+    <div class="container-fluid  my-5">
+        <div class="display-4 my-2 text-center">Sign Up</div>
+        <div class="row container">
+            <div class="col-md-6 align-self-center ">
+                <img class="round-img m-0 rounded-circle " id="profilePicture"  src="~/images/baker.png"/>
                 <form class="p-a-1" enctype="multipart/form-data" asp-action="SignUp" method="post">
                     <div asp-validation-summary="All" id="errors"></div>
                     <div id="fileError"></div>
@@ -51,9 +52,9 @@
                         </button>
                     </div>
                 </form>
-               
 
-                @section Scripts{ 
+
+                @section Scripts{
                     <script>
 
                         function ValidateExtension(filename) {
@@ -68,26 +69,27 @@
                             else {
                                 errors.innerHTML = "";
                             }
-                            
-                            return true;
-                         }
 
-   
+                            return true;
+                        }
+
+
 
                         $(document).ready(function () {
                             $('.custom-file-input').on("change", function () {
                                 var fileName = $(this).val().split("\\").pop();
                                 $(this).next('.custom-file-label').html(fileName);
-                              
+
 
                                 if (ValidateExtension(fileName)) {
                                     document.getElementById("btnSignUp").disabled = false;
                                     $("#profilePicture").attr("src", URL.createObjectURL(event.target.files[0]));
+                                    $("#profilePicture").addClass("shadow");
                                 }
                                 else {
                                     document.getElementById("btnSignUp").disabled = true;
                                 }
-                               
+
                             });
 
 
@@ -98,8 +100,99 @@
                     </script>
                 }
             </div>
-        </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-4 align-bottom my-5">
+                <img id="signInImage" class="m-5"src="~/images/toasterPiggyBank.png">
+            </div>
+         </div>
     </div>
+
+                @*<div class="container h-100">
+                        <div class="panel panel-success">
+                            <div class="panel-heading text-center"><h4>Sign Up</h4></div>
+                            <div class="panel-body">
+                                <img class="round-img m-0" id="profilePicture"/>
+                                <form class="p-a-1" enctype="multipart/form-data" asp-action="SignUp" method="post">
+                                    <div asp-validation-summary="All" id="errors"></div>
+                                    <div id="fileError"></div>
+                                    <div class="form-group">
+                                        <label asp-for="Name">Name:</label>
+                                        <input class="form-control" asp-for="Name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Email">Email:</label>
+                                        <input class="form-control" asp-for="Email" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Password">Password:</label>
+                                        <input type="password" class="form-control" asp-for="Password" />
+                                    </div>
+                                    <div class="form-group row">
+                                        <label asp-for="ProfilePicture" class="col-sm-3 col-form-label">Profile Picture: </label>
+                                        <div class="col-sm-9">
+                                            <div class="custom-file">
+                                                <input asp-for="ProfilePicture" class="form-control custom-file-input">
+                                                <label class="custom-file-label">Choose Profile Picture...</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary" type="submit" id="btnSignUp">
+                                            Sign Up!
+                                        </button>
+                                    </div>
+                                </form>
+
+
+                                @section Scripts{
+                                    <script>
+
+                                        function ValidateExtension(filename) {
+                                            var allowedFiles = [".jpg", ".png"];
+
+                                            var errors = document.getElementById("fileError");
+                                            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+                                            if (!regex.test(filename.toLowerCase())) {
+                                                errors.innerHTML += "<p>Note: Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.<p>";
+                                                return false;
+                                            }
+                                            else {
+                                                errors.innerHTML = "";
+                                            }
+
+                                            return true;
+                                         }
+
+
+
+                                        $(document).ready(function () {
+                                            $('.custom-file-input').on("change", function () {
+                                                var fileName = $(this).val().split("\\").pop();
+                                                $(this).next('.custom-file-label').html(fileName);
+
+
+                                                if (ValidateExtension(fileName)) {
+                                                    document.getElementById("btnSignUp").disabled = false;
+                                                    $("#profilePicture").attr("src", URL.createObjectURL(event.target.files[0]));
+                                                }
+                                                else {
+                                                    document.getElementById("btnSignUp").disabled = true;
+                                                }
+
+                                            });
+
+
+
+                                        });
+
+
+                                    </script>
+                                }
+                            </div>
+                        </div>
+                    </div>*@
 
 </body>
 </html>

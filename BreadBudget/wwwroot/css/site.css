@@ -55,9 +55,15 @@ body, html {
 }
 
 .round-img {
-    width: 200px;
-    height:auto;
+    width: 150px;
+    height:150px;
     max-width: 200px;
+    background-size:cover;
+
+}
+#signInImage {
+    width: 400px;
+    height: auto;
 }
 
 

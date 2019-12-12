@@ -22,7 +22,8 @@
             <div class="panel-body">
                 <img id="profilePicture"/>
                 <form class="p-a-1" enctype="multipart/form-data" asp-action="SignUp" method="post">
-                    <div asp-validation-summary="All"></div>
+                    <div asp-validation-summary="All" id="errors"></div>
+                    <div id="fileError"></div>
                     <div class="form-group">
                         <label asp-for="Name">Name:</label>
                         <input class="form-control" asp-for="Name" />
@@ -45,7 +46,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit" id="btnSignUp">
                             Sign Up!
                         </button>
                     </div>
@@ -55,13 +56,42 @@
                 @section Scripts{ 
                     <script>
 
+                        function ValidateExtension(filename) {
+                            var allowedFiles = [".jpg", ".png"];
+
+                            var errors = document.getElementById("fileError");
+                            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+                            if (!regex.test(filename.toLowerCase())) {
+                                errors.innerHTML += "<p>Note: Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.<p>";
+                                return false;
+                            }
+                            else {
+                                errors.innerHTML = "";
+                            }
+                            
+                            return true;
+                         }
+
+   
+
                         $(document).ready(function () {
                             $('.custom-file-input').on("change", function () {
                                 var fileName = $(this).val().split("\\").pop();
                                 $(this).next('.custom-file-label').html(fileName);
-                                // https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
-                                $("#profilePicture").attr("src", URL.createObjectURL(event.target.files[0]));
+                              
+
+                                if (ValidateExtension(fileName)) {
+                                    document.getElementById("btnSignUp").disabled = false;
+                                    $("#profilePicture").attr("src", URL.createObjectURL(event.target.files[0]));
+                                }
+                                else {
+                                    document.getElementById("btnSignUp").disabled = true;
+                                }
+                               
                             });
+
+
+
                         });
 
 

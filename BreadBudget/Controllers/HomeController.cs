@@ -165,6 +165,9 @@ namespace BreadBudget.Controllers
                 {
                     string fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
                     string extension = Path.GetExtension(model.ProfilePicture.FileName);
+
+                    
+
                     fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
                     string filePath = Path.Combine("wwwroot/images/", fileName);
                     model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));

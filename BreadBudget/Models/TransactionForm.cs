@@ -20,7 +20,7 @@ namespace BreadBudget.Models
         [Required(ErrorMessage = "Please enter your an amount.")]
         [RegularExpression(@"^\d{0,8}(\.\d{1,2})?$",
             ErrorMessage = "Please enter a valid amount.")]
-        public double Amount { get; set; }
+        public double? Amount { get; set; }
 
         [Required(ErrorMessage = "Please choose a device type")]
         [EnumDataType(typeof(Categories))]

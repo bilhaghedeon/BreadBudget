@@ -24,17 +24,22 @@
         <div class="panel panel-success">
             <div class="panel-heading text-center"><h4>Sign Up</h4></div>
             <div class="panel-body">
-               
-
                 <form class="p-a-1" asp-action="AddTransaction" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="All"></div>
-                    @foreach (var transaction in Enum.GetValues(typeof(TransactionForm.TransactionTypes)))
-                    {
-                        <label class="btn btn-outline-secondary m-5">
-                            <input id="radiobtn" type="radio" asp-for="TransactionType" value="@transaction" />
-                            @transaction
+                    <label for="TransactionType">Choose a Transaction Type:</label>
+                    <div class="btn-group container-fluid p-0" data-toggle="buttons">
+
+
+                        <label for="income" class="btn btn-outline-secondary ">
+                            <input id="income" type="radio" asp-for="TransactionType" value="Income" />
+                            Income
                         </label>
-                    }
+                        <label for="expense" class="btn btn-outline-secondary ">
+                            <input id="expense" type="radio" asp-for="TransactionType" value="Expense" />
+                            Expense
+                        </label>
+
+                    </div>
                     <div class="form-group">
                         <label asp-for="Name">Transaction Name:</label>
                         <input class="form-control" asp-for="Name" />
@@ -59,7 +64,7 @@
                         </div>
                         <div class="custom-file">
                             <input asp-for="Receipt" type="file" class="custom-file-input" id="inputGroupFile01">
-                            <label asp-for="Receipt"class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            <label asp-for="Receipt" class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                     </div>
                     <div class="text-center">

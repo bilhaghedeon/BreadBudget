@@ -17,10 +17,10 @@ namespace BreadBudget.Controllers
     public class HomeController : Controller
 
     {
-        private UserDb _context;
+        private readonly UserDb _context;
 
         // current user account 
-        private static int _currentUserId { get; set; }
+        private static int CurrentUserId { get; set; }
 
         public HomeController(UserDb context)
         {
@@ -49,7 +49,7 @@ namespace BreadBudget.Controllers
                     if (queryAccount == true)
                     {
                         
-                        _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
+                        CurrentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
 
                        // TempData["Account"] = _currentUserId;
                         return RedirectToAction("Dashboard");
@@ -76,7 +76,7 @@ namespace BreadBudget.Controllers
 
         public async Task<IActionResult> DisplayTest()
         {
-            Account hello = _context.Accounts.Find(_currentUserId);
+            Account hello = _context.Accounts.Find(CurrentUserId);
 
             var student = await _context
                 .Accounts
@@ -169,7 +169,7 @@ namespace BreadBudget.Controllers
                     _context.Add(newAccount);
                     _context.SaveChanges();
                    
-                    _currentUserId = newAccount.Id;
+                    CurrentUserId = newAccount.Id;
 
                     //_context.Accounts.Where(u => u.Email == newAccount.Email)
                     //.Select(u => u.Id)
@@ -225,7 +225,7 @@ namespace BreadBudget.Controllers
                  
                 //var account = _context.Accounts.Find(_currentUserId);
                 //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
-                Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+                Account account = _context.Accounts.SingleOrDefault(a => a.Id == CurrentUserId);
 
                 List<Transaction> transactions = account.Transactions;
 
@@ -256,7 +256,7 @@ namespace BreadBudget.Controllers
 
         public IActionResult Dashboard()
         {
-            Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+            Account account = _context.Accounts.SingleOrDefault(a => a.Id == CurrentUserId);
 
             return View(account);
         }
@@ -266,17 +266,17 @@ namespace BreadBudget.Controllers
             return View();
         }
 
-        public IActionResult AllTransactions()
+        public IActionResult AllCategories()
         {
             return View();
         }
 
-        public async Task<IActionResult> Transaction(string category)
+        public async Task<IActionResult> TransactionByCategory(string category)
         {
             var account = await _context
                 .Accounts
                 .Include(a=> a.Transactions)
-                .FirstOrDefaultAsync(a=> a.Id == _currentUserId);
+                .FirstOrDefaultAsync(a=> a.Id == CurrentUserId);
             var transactions = account.Transactions.Where(t => t.Category == category).ToList();
 
             //List<Transaction> transactions = new List<Transaction>();

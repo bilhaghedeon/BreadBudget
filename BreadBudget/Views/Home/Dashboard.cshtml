@@ -1,7 +1,4 @@
-﻿@* Author: Everyone *@
-@* Designed: Bilha Ghedeon *@
-
-@model BreadBudget.Models.Account
+﻿@model BreadBudget.Models.Account
 @{
     Layout = "_Layout";
 }
@@ -17,7 +14,7 @@
 </head>
 <body>
     <div class="container h-100 ">
-
+     
         <div class="card mb-3 my-5 border-0">
             <div class="row no-gutters align-items-center">
                 <div class="col-md-3 ">
@@ -35,29 +32,31 @@
         <div class="row justify-content-center">
             <div class="card-group">
                 <div>
+                    
+                        <div class="card text-center border-0 ">
+                            <div class="col-12 container-fluid justify-content-center border-0">
+                                
+                                <div class="row my-3 ">
 
-                    <div class="card text-center border-0 ">
-                        <div class="col-12 container-fluid justify-content-center border-0">
+                                    <a href="/Home/AddTransaction" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true"> Add Transaction</a>
+                                </div>
+                                <div class="row my-3">
+                                    <a href="/Home/MonthlyBreakdown/" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">Monthly Breakdown</a>
+                                </div>
+                                <div class="row my-3">
+                                    <a href="/Home/AllCategories/" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">View All Transactions</a>
+                                </div>
+                                <div class="row my-3">
 
-                            <div class="row my-3 ">
-
-                                <a href="/Home/AddTransaction" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true"> Bake Some Bread</a>
+                                    <a href="/Home/News" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">The Daily Bread</a>
+                                </div>
                             </div>
-                            <div class="row my-3">
-                                <a href="/Home/DisplayTest/" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">Monthly Breakdown</a>
-                            </div>
-                            <div class="row my-3">
-                                <a href="/Home/AllCategories/" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">View All Buns</a>
-                            </div>
-                            <div class="row my-3">
-
-                                <a href="/Home/News" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">The Daily Bread</a>
-                            </div>
-                        </div>
-
-                    </div>
+                   
                 </div>
             </div>
         </div>
+        </div>
+        </div>
 </body>
 </html>
+ 

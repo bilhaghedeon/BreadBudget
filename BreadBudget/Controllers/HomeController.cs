@@ -332,7 +332,7 @@ namespace BreadBudget.Controllers
         public IActionResult SignOut()
         {
             _currentUserId = 0;
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
       

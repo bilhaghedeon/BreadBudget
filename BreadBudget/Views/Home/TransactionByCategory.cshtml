@@ -23,6 +23,7 @@
                 <th scope="col">Amount</th>
                 <th scope="col">Note</th>
                 <th scope="col">Receipt</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
                     <td>@receipt.Amount</td>
                     <td>@receipt.Note</td>
                     <td><a class="image-link" href="~/images/@receipt.Receipt">View Receipt</a></td>
+                    <td><a href="/Home/Delete/@receipt.Id">Delete Transaction</a></td>
                 </tr>
             }
         </tbody>

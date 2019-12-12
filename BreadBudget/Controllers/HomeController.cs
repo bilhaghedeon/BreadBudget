@@ -283,11 +283,15 @@ namespace BreadBudget.Controllers
 
         public IActionResult AllCategories()
         {
+            List<string> categories = new List<string>()
+            {
+                "Housing", "Grocery", "Transportation", "Clothes", "Bills", "Food", "Health", "Miscellaneous"
+            };
             if (_currentUserId == 0)
             {
                 return View("Errors");
             }
-            return View();
+            return View(categories);
         }
 
         public async Task<IActionResult> TransactionByCategory(string category)

@@ -34,7 +34,7 @@ namespace BreadBudget
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler();
             }
 
             app.UseStaticFiles();

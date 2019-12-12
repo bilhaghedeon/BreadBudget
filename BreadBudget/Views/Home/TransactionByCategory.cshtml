@@ -1,10 +1,11 @@
-﻿@model IEnumerable<BreadBudget.Models.Transaction>
+﻿@* Author: Nevada Graci and Samina Khaliq *@
+
+@model IEnumerable<BreadBudget.Models.Transaction>
 @{
     Layout = "_Layout";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -27,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var receipt in Model)
+            @foreach (var receipt in Model)
             {
                 <tr>
                     <td>@receipt.TransactionType</td>

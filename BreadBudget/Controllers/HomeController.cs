@@ -266,12 +266,12 @@ namespace BreadBudget.Controllers
             return View();
         }
 
-        public IActionResult AllTransactions()
+        public IActionResult AllCategories()
         {
             return View();
         }
 
-        public async Task<IActionResult> Transaction(string category)
+        public async Task<IActionResult> TransactionByCategory(string category)
         {
             var account = await _context
                 .Accounts

@@ -304,8 +304,8 @@ namespace BreadBudget.Controllers
                 {
                     lstModel.Add(new BreakdownViewModel
                     {
-                        DimensionOne = category,
-                        Quantity = (int)Math.Round((categoryTotalAmounts[category]))
+                        Category = category,
+                        TotalAmount = (int)Math.Round((categoryTotalAmounts[category]))
 
                     });
                 }

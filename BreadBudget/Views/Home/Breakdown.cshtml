@@ -3,15 +3,13 @@
 @using System.Linq;
 @model IEnumerable<BreakdownViewModel>
 @{
-    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
-    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Category).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.TotalAmount).ToList());
 
 }
-@*@model BreadBudget.Models.Account*@
 
 @{
-    ViewData["Title"] = "DisplayTest";
-    //var photoPath = "/wwwroot/images/" + (Model.ProfilePicture ?? "noimage.jpg");
+    ViewData["Title"] = "Breakdown";
 }
 
 <!DOCTYPE html>
@@ -19,7 +17,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Monthly Breakdown</title>
+    <title>Your Current Breakdown</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>

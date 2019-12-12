@@ -9,7 +9,7 @@ namespace BreadBudget.Models
 {
     public class BreakdownViewModel
     {
-        public string DimensionOne { get; set; }
-        public int Quantity { get; set; }
+        public string Category { get; set; }
+        public int TotalAmount { get; set; }
     }
 }

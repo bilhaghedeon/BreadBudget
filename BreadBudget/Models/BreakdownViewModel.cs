@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BreadBudget.Models
 {
-    public class SimpleReportViewModel
+    public class BreakdownViewModel
     {
         public string DimensionOne { get; set; }
         public int Quantity { get; set; }

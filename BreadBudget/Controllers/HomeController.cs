@@ -164,7 +164,7 @@ namespace BreadBudget.Controllers
                 }
                 else {
                     fileName = "noReceipt.png";
-                    string filePath = Path.Combine("wwwroot/app-images/images/", fileName);
+                    string filePath = Path.Combine("wwwroot/images/", fileName);
                 }
                 Transaction newTransaction = new Transaction(form.TransactionType, form.Name, form.Amount ?? 0, form.Category, form.Note, fileName);
 
@@ -259,39 +259,39 @@ namespace BreadBudget.Controllers
                 return View("Errors");
             }
 
-            Account hello = _context.Accounts.Find(_currentUserId);
+            //Account account = await _context.Accounts.FindAsync(_currentUserId);
 
-            var student = await _context
+            var account = await _context
                 .Accounts
                 .Include(s => s.Transactions)
-                .FirstOrDefaultAsync(s => s.Id == hello.Id);
+                .FirstOrDefaultAsync(s => s.Id == _currentUserId);
 
-            if (student == null)
+            if (account == null)
             {
                 return NotFound();
             }
 
-            var lstModel = new List<SimpleReportViewModel>();
+            var lstModel = new List<BreakdownViewModel>();
 
-            Dictionary<string, double> categoryAmounts = new Dictionary<string, double>();
-            IEnumerable<string> categories = hello.Transactions.Select(s => s.Category).Distinct().ToList();
+            Dictionary<string, double> categoryTotalAmounts = new Dictionary<string, double>();
+            IEnumerable<string> categories = account.Transactions.Select(s => s.Category).Distinct().ToList();
 
             double totalQuantity = 0;
 
-            foreach (var t in hello.Transactions)
+            foreach (var t in account.Transactions)
             {
 
                 totalQuantity += t.Amount;
 
-                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(t.Category));
+                string category = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(t.Category));
 
-                if (categoryAmounts.ContainsKey(cat))
+                if (categoryTotalAmounts.ContainsKey(category))
                 {
-                    categoryAmounts[cat] = categoryAmounts[cat] + t.Amount;
+                    categoryTotalAmounts[category] = categoryTotalAmounts[category] + t.Amount;
                 }
                 else
                 {
-                    categoryAmounts.Add(cat, t.Amount);
+                    categoryTotalAmounts.Add(category, t.Amount);
                 }
 
             }
@@ -299,19 +299,19 @@ namespace BreadBudget.Controllers
             foreach (var c in categories)
             {
                 
-                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
-                if (cat != "Income")
+                string category = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
+                if (category != "Income")
                 {
-                    lstModel.Add(new SimpleReportViewModel
+                    lstModel.Add(new BreakdownViewModel
                     {
-                        DimensionOne = cat,
-                        Quantity = (int)Math.Round((categoryAmounts[cat]))
+                        DimensionOne = category,
+                        Quantity = (int)Math.Round((categoryTotalAmounts[category]))
 
                     });
                 }
             }
 
-            IEnumerable<SimpleReportViewModel> categoriesIEnum = lstModel;
+            IEnumerable<BreakdownViewModel> categoriesIEnum = lstModel;
             return View(categoriesIEnum);
         }
 

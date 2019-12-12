@@ -1,7 +1,7 @@
 ﻿@* Author: Bilha Ghedeon *@
 
 @using System.Linq;
-@model IEnumerable<SimpleReportViewModel>
+@model IEnumerable<BreakdownViewModel>
 @{
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());

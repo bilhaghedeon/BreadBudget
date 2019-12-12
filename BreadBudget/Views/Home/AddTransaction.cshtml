@@ -28,6 +28,8 @@
             <div class="col-6-sm align-content-center">
                 <form class="p-a-1" asp-action="AddTransaction" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="All"></div>
+                    <div id="fileError"></div>
+
                     <label for="TransactionType">Choose a Transaction Type:</label>
                     <div class="btn-group container-fluid p-0" data-toggle="buttons">
 
@@ -69,7 +71,7 @@
 
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <button class="btn btn-outline-dark" type="submit" id="btnSignUp">
                             Add Transaction
                         </button>
                     </div>
@@ -77,15 +79,33 @@
 
                 @section Scripts{
                     <script>
+                       
+                        
+   
 
                         $(document).ready(function () {
-                            console.log("Document Loaded");
-                            $(".custom-file-input").change(function () {
+                            $('.custom-file-input').on("change", function () {
                                 var fileName = $(this).val().split("\\").pop();
-                                console.log(fileName);
-                                $(this).next(".custom-file-label").html(fileName);
-                                //https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+                                $(this).next('.custom-file-label').html(fileName);
+
+
+                                var allowedFiles = [".jpg", ".png"];
+
+                                var errors = document.getElementById("fileError");
+                                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+                                if (!regex.test(fileName.toLowerCase())) {
+                                    errors.innerHTML += "<p>Note: Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.<p>";
+                                    return false;
+                                }
+                                else {
+                                    errors.innerHTML = "";
+                                }
+                              
+
                             });
+
+
+
                         });
                     </script>
                 }

@@ -64,7 +64,3 @@ body {
     display: flex;
     justify-content: space-between;
 }
-
-td {
-    word-break: break-word;
-}

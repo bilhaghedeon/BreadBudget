@@ -1,4 +1,7 @@
 ﻿@model BreadBudget.Models.Account
+@{
+    Layout = "_Layout";
+}
 
 <!DOCTYPE html>
 
@@ -11,19 +14,63 @@
 </head>
 <body>
     <div class="container h-100 ">
+     
+        <div class="card mb-3 my-5 border-0">
+            <div class="row no-gutters align-items-center">
+                <div class="col-md-3 ">
+                    <img src="~/images/@Model.ProfilePicture" class="shadow round-img rounded-circle ml-auto img-fluid d-md-block" alt="">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body ">
+                        <div class="display-3 ">Hello @Model.Name!</div>
+                        <div class="display-4 ">Welcome to Bread Budget.</div>
+                        <div class="lead">Make more bread than you can eat!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="card-group">
+                <div>
+                    
+                        <div class="card text-center border-0 ">
+                            <div class="col-12 container-fluid justify-content-center border-0">
+                                
+                                <div class="row my-3 ">
 
-        <img class="round-img" src="~/images/@Model.ProfilePicture"/>
-        <h1>Hello @Model.Name</h1>
-        <div class="row h-100 justify-content-around align-items-center">
-            @* <a href="./AddTransaction" type="button" class="btn btn-outline-success">Add Transaction</a>*@
-            <a href="/Home/AddTransaction" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true"> Add Transaction</a>
-            <a href="/Home/DisplayTest/" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true">Monthly Breakdown</a>
-            <a href="/Home/AllCategories/" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true">View Transactions</a>
-            <a href="/Home/News"class="btn btn-outline-success btn-lg" role="button" aria-pressed="true">News</a>
+                                    <a href="/Home/AddTransaction" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true"> Bake Some Bread</a>
+                                </div>
+                                <div class="row my-3">
+                                    <a href="/Home/DisplayTest/" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">Monthly Breakdown</a>
+                                </div>
+                                <div class="row my-3">
+                                    <a href="/Home/AllCategories/" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">View All Buns</a>
+                                </div>
+                                <div class="row my-3">
 
+                                    <a href="/Home/News" class="btn btn-outline-info btn-block btn" role="button" aria-pressed="true">The Daily Bread</a>
+                                </div>
+                            </div>
+                   
+                </div>
+            </div>
+        </div>
         </div>
 
-    </div>
+
+        @*<div class="container h-100 ">
+                <img class="shadow round-img rounded-circle img-fluid m-5" src="~/images/@Model.ProfilePicture"/>
+                <h1>Hello @Model.Name</h1>
+                <div class="row h-100 justify-content-around align-items-center">
+                    @* <a href="./AddTransaction" type="button" class="btn btn-outline-success">Add Transaction</a>
+            <a href="/Home/AddTransaction" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true"> Add Transaction</a>
+            <a href="/Home/DisplayTest/" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true">Monthly Breakdown</a>
+            <a href="/Home/AllReceipts/" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true">View Receipts</a>
+            <a href="/Home/News" class="btn btn-outline-success btn-lg" role="button" aria-pressed="true">News</a>
+
+            </div>
+
+            </div>*@
 </body>
 </html>
  

@@ -16,11 +16,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Transaction Type</th>
                 <th scope="col">Name</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Category</th>
                 <th scope="col">Note</th>
                 <th scope="col">Receipt</th>
             </tr>
@@ -29,12 +27,10 @@
             @foreach(var receipt in Model)
             {
                 <tr>
-                    <th scope="row">@receipt.Id</th>
                     <th>@receipt.TransactionType</th>
                     <th>@receipt.Name</th>
                     <th>@receipt.Amount</th>
                     <th>@receipt.Note</th>
-                    @*<th><a class="image-link" href="https://cdn.shopify.com/s/files/1/2018/8867/files/matteo-paganelli-39971_530x.jpg">View Receipt</a></th>*@
                     <th><a class="image-link" href="~/images/@receipt.Receipt">View Receipt</a></th>
                 </tr>
             }

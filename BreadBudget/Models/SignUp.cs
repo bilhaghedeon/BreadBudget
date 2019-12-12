@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/* Author: Samina Khaliq */
+
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,18 +30,6 @@ namespace BreadBudget.Models
         [Required(ErrorMessage = "Please select a file.")]
         [DataType(DataType.Upload)]
         public IFormFile ProfilePicture { get; set; }
-
-
-
-
- 
-       
-
-        
-
-
-
-
 
     }
 }

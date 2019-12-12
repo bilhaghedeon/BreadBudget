@@ -1,9 +1,11 @@
-﻿@using System.Linq;
+﻿@* Author: Bilha Ghedeon *@
+
+@using System.Linq;
 @model IEnumerable<SimpleReportViewModel>
-@{ 
-    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select( x => x.DimensionOne ).ToList() );
-    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject( Model.Select( x => x.Quantity ).ToList() );
-    
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.DimensionOne).ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Quantity).ToList());
+
 }
 @*@model BreadBudget.Models.Account*@
 
@@ -104,7 +106,7 @@ var options = {
             };
 
        var myChart = new  Chart(ctx, {
-                
+
                 data: data,
                 type:'pie'
 

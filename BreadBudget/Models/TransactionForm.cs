@@ -12,12 +12,12 @@ namespace BreadBudget.Models
     public class TransactionForm
     {
         public enum TransactionTypes { Expense, Income }
-        public enum Categories { Housing, Groceries, Transportation, Clothes, Bills, Food, Health, Miscellaneous}
+        public enum Categories { Housing, Groceries, Transportation, Clothes, Bills, Food, Health, Miscellaneous, Income}
 
         [Required(ErrorMessage = "Please select your transaction type.")]
         public string TransactionType { get; set; }
         [Required(ErrorMessage = "Please enter a transaction name.")]
-        [StringLength(100 )]
+        [StringLength(50 )]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter an amount.")]
         [RegularExpression(@"^\d{0,8}(\.\d{1,2})?$",

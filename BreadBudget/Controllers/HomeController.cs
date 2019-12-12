@@ -153,12 +153,19 @@ namespace BreadBudget.Controllers
                 Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
                 List<Transaction> transactions = account.Transactions;
 
-                string fileName = Path.GetFileNameWithoutExtension(form.Receipt.FileName);
-                string extension = Path.GetExtension(form.Receipt.FileName);
-                fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
-                string filePath = Path.Combine("wwwroot/images/", fileName);
-                form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
-
+                string fileName = "";
+                if (form.Receipt != null)
+                {
+                    fileName = Path.GetFileNameWithoutExtension(form.Receipt.FileName);
+                    string extension = Path.GetExtension(form.Receipt.FileName);
+                    fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
+                    string filePath = Path.Combine("wwwroot/images/", fileName);
+                    form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create)); 
+                }
+                else {
+                    fileName = "noReceipt.png";
+                    string filePath = Path.Combine("wwwroot/app-images/images/", fileName);
+                }
                 Transaction newTransaction = new Transaction(form.TransactionType, form.Name, form.Amount ?? 0, form.Category, form.Note, fileName);
 
                 account.Transactions.Add(newTransaction);
@@ -246,7 +253,7 @@ namespace BreadBudget.Controllers
 
         /* -------------------- Visualization of data using Chart JS  -------------------- */
 
-        public async Task<IActionResult> MonthlyBreakdown()
+        public async Task<IActionResult> Breakdown()
         {
             if (_currentUserId == 0) {
                 return View("Errors");
@@ -291,14 +298,17 @@ namespace BreadBudget.Controllers
 
             foreach (var c in categories)
             {
+                
                 string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
-
-                lstModel.Add(new SimpleReportViewModel
+                if (cat != "Income")
                 {
-                    DimensionOne = cat,
-                    Quantity = (int)Math.Round((categoryAmounts[cat]))
+                    lstModel.Add(new SimpleReportViewModel
+                    {
+                        DimensionOne = cat,
+                        Quantity = (int)Math.Round((categoryAmounts[cat]))
 
-                });
+                    });
+                }
             }
 
             IEnumerable<SimpleReportViewModel> categoriesIEnum = lstModel;

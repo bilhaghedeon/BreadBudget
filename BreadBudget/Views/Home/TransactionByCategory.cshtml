@@ -30,14 +30,21 @@
         <tbody>
             @foreach (var receipt in Model)
             {
-                <tr>
-                    <td>@receipt.TransactionType</td>
-                    <td>@receipt.Name</td>
-                    <td>@receipt.Amount</td>
-                    <td>@receipt.Note</td>
+            <tr>
+                <td>@receipt.TransactionType</td>
+                <td>@receipt.Name</td>
+                <td>@receipt.Amount</td>
+                <td>@receipt.Note</td>
+                @if (receipt.Receipt == "")
+                {
+                    <td>No receipt available</td>
+                }
+                else
+                {
                     <td><a class="image-link" href="~/images/@receipt.Receipt">View Receipt</a></td>
-                    <td><a href="/Home/Delete/@receipt.Id">Delete Transaction</a></td>
-                </tr>
+                }
+                <td><a href="/Home/Delete/@receipt.Id">Delete Transaction</a></td>
+            </tr>
             }
         </tbody>
     </table>

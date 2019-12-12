@@ -162,10 +162,10 @@ namespace BreadBudget.Controllers
                     string filePath = Path.Combine("wwwroot/images/", fileName);
                     form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create)); 
                 }
-                else {
+                /*else {
                     fileName = "noReceipt.png";
                     string filePath = Path.Combine("wwwroot/images/", fileName);
-                }
+                }*/
                 Transaction newTransaction = new Transaction(form.TransactionType, form.Name, form.Amount ?? 0, form.Category, form.Note, fileName);
 
                 account.Transactions.Add(newTransaction);
@@ -185,7 +185,7 @@ namespace BreadBudget.Controllers
         {
             List<string> categories = new List<string>()
             {
-                "Housing", "Grocery", "Transportation", "Clothes", "Bills", "Food", "Health", "Miscellaneous"
+                "Housing", "Grocery", "Transportation", "Clothes", "Bills", "Food", "Health", "Miscellaneous", "Income"
             };
             if (_currentUserId == 0)
             {

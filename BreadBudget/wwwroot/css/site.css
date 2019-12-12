@@ -10,16 +10,54 @@ a.navbar-brand {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
 
+.main-section {
+    margin:0 auto;
+    margin-top: 80px;
+    padding: 0;
+
+}
+.modal-content {
+    background-color: #d1e7ed;
+    opacity: .8;
+    padding: 0 18px;
+}
+.user-img img{
+    height: 150px;
+    width: 150px;
+}
+.user-img {
+    margin-top: -60px;
+}
+.form-group {
+    margin-bottom: 25px;
+
+}
+
+
 body, html {
     height: 100%;
+}
+
+#logo {
+    width: 200px;
+    height: auto;
+    padding: 0;
+ 
+}
+
+.round-img {
+    width: 200px;
+    height:auto;
+    max-width: 200px;
 }
 
 
@@ -39,6 +77,8 @@ button.accept-policy {
   line-height: inherit;
 }
 
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -52,6 +92,7 @@ body {
 }
 .footer {
   position: absolute;
+  background-color: white;
   bottom: 0;
   width: 100%;
   white-space: nowrap;

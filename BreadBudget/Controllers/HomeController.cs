@@ -235,7 +235,7 @@ namespace BreadBudget.Controllers
                 string filePath = Path.Combine("wwwroot/images/", fileName);
                 form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
 
-                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount ?? 0,form.Category,form.Note, fileName);
+                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount,form.Category,form.Note, fileName);
                 
                 account.Transactions.Add(newTransaction);
 
@@ -324,7 +324,19 @@ namespace BreadBudget.Controllers
             return View();
         }
 
-       
+        public async Task<IActionResult> AllTransactions()
+        {
+
+            var account = await _context
+               .Accounts
+               .Include(a => a.Transactions)
+               .FirstOrDefaultAsync(a => a.Id == _currentUserId);
+
+
+            return View(account.Transactions.ToList());
+
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

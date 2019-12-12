@@ -246,7 +246,7 @@ namespace BreadBudget.Controllers
 
         /* -------------------- Visualization of data using Chart JS  -------------------- */
 
-        public async Task<IActionResult> DisplayTest()
+        public async Task<IActionResult> MonthlyBreakdown()
         {
             if (_currentUserId == 0) {
                 return View("Errors");

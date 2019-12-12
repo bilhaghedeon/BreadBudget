@@ -32,11 +32,6 @@ namespace BreadBudget
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

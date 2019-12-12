@@ -19,7 +19,6 @@ namespace BreadBudget.Controllers
     {
         private readonly UserDb _context;
 
-        // current user account 
         private static int _currentUserId { get; set; }
 
         private static string _currentCategory { get; set; }
@@ -29,7 +28,9 @@ namespace BreadBudget.Controllers
             _context = context;
         }
 
-        // Index page deals with Log In functionality
+        /* -------------------- Login -------------------- */
+
+        // Login page
         [HttpGet]
         public IActionResult Index()
         {
@@ -41,19 +42,13 @@ namespace BreadBudget.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Checks the database for the corresponding account email
                 var queryEmail = _context.Accounts.Any(a => a.Email == login.Email);
                 if (queryEmail == true)
                 {
-                    // Checks the database for the corresponding account password
                     var queryAccount = _context.Accounts.Any(a => a.Email == login.Email && a.Password == login.Password);
-
                     if (queryAccount == true)
                     {
-                        
                         _currentUserId = _context.Accounts.FirstOrDefault(u => u.Email == login.Email).Id;
-
-                       // TempData["Account"] = _currentUserId;
                         return RedirectToAction("Dashboard");
                     }
                     else
@@ -76,71 +71,6 @@ namespace BreadBudget.Controllers
             }
         }
 
-        public async Task<IActionResult> MonthlyBreakdown()
-        {
-            if (_currentUserId == 0) {
-                return View("Errors");
-            }
-            Account hello = _context.Accounts.Find(_currentUserId);
-
-            var student = await _context
-                .Accounts
-                .Include(s => s.Transactions)
-                .FirstOrDefaultAsync(s => s.Id == hello.Id);
-
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-
-
-            var lstModel = new List<SimpleReportViewModel>();
-
-
-            Dictionary<string, double> categoryAmounts = new Dictionary<string, double>();
-            IEnumerable<string> categories = hello.Transactions.Select(s => s.Category).Distinct().ToList();
-
-
-            double totalQuantity = 0;
-
-            foreach (var t in hello.Transactions)
-            {
-
-                totalQuantity += t.Amount;
-
-                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(t.Category));
-
-
-                if (categoryAmounts.ContainsKey(cat))
-                {
-                    categoryAmounts[cat] = categoryAmounts[cat] + t.Amount;
-                }
-                else
-                {
-                    categoryAmounts.Add(cat, t.Amount);
-                }
-
-            }
-
-            foreach (var c in categories)
-            {
-
-                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
-
-                lstModel.Add(new SimpleReportViewModel
-                {
-                    DimensionOne = cat,
-                    Quantity = (int)Math.Round((categoryAmounts[cat]))
-
-                });
-            }
-            IEnumerable<SimpleReportViewModel> categoriesIEnum = lstModel;
-            return View(categoriesIEnum);
-
-
-        }
-
         public IActionResult SignUp()
         {
             return View();
@@ -149,12 +79,14 @@ namespace BreadBudget.Controllers
         public Boolean ValidateEmail(string email)
         {
 
-            if(_context.Accounts.Any(a => a.Email == email))
+            if (_context.Accounts.Any(a => a.Email == email))
             {
                 return false;
             }
             return true;
         }
+
+        /* -------------------- Sign up -------------------- */
 
         [HttpPost]
         public IActionResult SignUp(SignUp model)
@@ -163,107 +95,32 @@ namespace BreadBudget.Controllers
             {
                 if (ValidateEmail(model.Email))
                 {
+
                     string fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
                     string extension = Path.GetExtension(model.ProfilePicture.FileName);
-
-                    
-
                     fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
                     string filePath = Path.Combine("wwwroot/images/", fileName);
                     model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));
-                    Account newAccount = new Account(model.Name, model.Email, model.Password, fileName);
-                    //AccountRepository.AddAccount(newAccount);
 
+                    Account newAccount = new Account(model.Name, model.Email, model.Password, fileName);
                     _context.Add(newAccount);
                     _context.SaveChanges();
-                   
                     _currentUserId = newAccount.Id;
-
-                    //_context.Accounts.Where(u => u.Email == newAccount.Email)
-                    //.Select(u => u.Id)
-                    //.FirstOrDefault();
-                   // TempData["Account"] = newAccount.Id; 
-
                 }
-
                 else
                 {
                     ModelState.AddModelError("Email", "Account with this email already exists.");
                     return View();
                 }
-
-
-                /*
-                string uniqueFileName = null;
-                if (model.ProfilePicture != null)
-                {
-                    string uploadsFolder = Path.Combine(Path., "images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfilePicture.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-                Account newAccount = new Account(model.Name, model.Email, model.Password, uniqueFileName);
-                AccountRepository.AddAccount(newAccount);
-                RedirectToAction("Index");*/
-
                 return RedirectToAction("AddTransaction");
-
-            }
-
-            else
-            {
-                return View();
-            }
-        }
-
-        [HttpGet]
-        public ViewResult AddTransaction()
-        {
-            if (_currentUserId == 0)
-            {
-                return View("Errors");
-            }
-            return View();
-        }
-
-
-        [HttpPost]
-        public IActionResult AddTransaction(TransactionForm form)
-        {
-            if (ModelState.IsValid)
-            {
-                
-                 
-                //var account = _context.Accounts.Find(_currentUserId);
-                //db.Books.SingleOrDefault(b => b.BookNumber == bookNumber)
-                Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
-
-                List<Transaction> transactions = account.Transactions;
-
-                string fileName = Path.GetFileNameWithoutExtension(form.Receipt.FileName);
-                string extension = Path.GetExtension(form.Receipt.FileName);
-                fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
-                string filePath = Path.Combine("wwwroot/images/", fileName);
-                form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
-
-                Transaction newTransaction = new Transaction(form.TransactionType,form.Name,form.Amount ?? 0,form.Category,form.Note, fileName);
-                
-                account.Transactions.Add(newTransaction);
-
-                _context.Accounts.Attach(account);
-                var entry = _context.Entry(account);
-                entry.Collection(a => a.Transactions).IsModified = true;
-
-                _context.SaveChanges();
-
-                
-                return RedirectToAction("Dashboard");
             }
             else
             {
                 return View();
             }
         }
+
+        /* -------------------- After user logged in -------------------- */
 
         public IActionResult Dashboard()
         {
@@ -276,11 +133,47 @@ namespace BreadBudget.Controllers
             return View(account);
         }
 
-        public IActionResult Privacy()
+        /* -------------------- Transaction related functionalities  -------------------- */
+
+        [HttpGet]
+        public ViewResult AddTransaction()
         {
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
             return View();
         }
 
+        [HttpPost]
+        public IActionResult AddTransaction(TransactionForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                Account account = _context.Accounts.SingleOrDefault(a => a.Id == _currentUserId);
+                List<Transaction> transactions = account.Transactions;
+
+                string fileName = Path.GetFileNameWithoutExtension(form.Receipt.FileName);
+                string extension = Path.GetExtension(form.Receipt.FileName);
+                fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
+                string filePath = Path.Combine("wwwroot/images/", fileName);
+                form.Receipt.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                Transaction newTransaction = new Transaction(form.TransactionType, form.Name, form.Amount ?? 0, form.Category, form.Note, fileName);
+
+                account.Transactions.Add(newTransaction);
+                _context.Accounts.Attach(account);
+                var entry = _context.Entry(account);
+                entry.Collection(a => a.Transactions).IsModified = true;
+                _context.SaveChanges();
+
+                return RedirectToAction("Dashboard");
+            }
+            else
+            {
+                return View();
+            }
+        }
         public IActionResult AllCategories()
         {
             List<string> categories = new List<string>()
@@ -305,32 +198,114 @@ namespace BreadBudget.Controllers
 
             var account = await _context
                 .Accounts
-                .Include(a=> a.Transactions)
-                .FirstOrDefaultAsync(a=> a.Id == _currentUserId);
+                .Include(a => a.Transactions)
+                .FirstOrDefaultAsync(a => a.Id == _currentUserId);
             var transactions = account.Transactions.Where(t => t.Category == category).ToList();
 
-            //List<Transaction> transactions = new List<Transaction>();
-
-            //foreach (var transaction in account.Transactions) {
-            //    if (transaction.Category == "0") {
-            //        transactions.Add(transaction);
-            //    }
-            //}
-
-
-            //List<Transaction> transactions = account.Transactions.Where(t => t.Category == category).ToList();
-            /*foreach (var transaction in account.Transactions)
-                {
-                    if (transaction.Category == category)
-                    {
-                        transactions.Add(transaction);
-                    }
-                }*/
-
-            //return View(ReceiptRepository.GetTransactions().Where(r => r.Category == category));
             return View(transactions);
         }
 
+        public async Task<IActionResult> AllTransactions()
+        {
+            if (_currentUserId == 0)
+            {
+                return View("Errors");
+            }
+
+            var account = await _context
+               .Accounts
+               .Include(a => a.Transactions)
+               .FirstOrDefaultAsync(a => a.Id == _currentUserId);
+
+
+            return View(account.Transactions.ToList());
+
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var account = await _context
+              .Accounts
+              .Include(a => a.Transactions)
+              .FirstOrDefaultAsync(a => a.Id == _currentUserId);
+
+            Transaction transaction = account.Transactions.Where(t => t.Id == id).FirstOrDefault();
+
+            if (account == null)
+            {
+                return View("Errors");
+            }
+
+            _context.Entry(transaction).State = EntityState.Deleted;
+            account.Transactions.Remove(transaction);
+            await _context.SaveChangesAsync();
+            return View("TransactionByCategory", account.Transactions.Where(t => t.Category == _currentCategory).ToList());
+
+        }
+
+        /* -------------------- Visualization of data using Chart JS  -------------------- */
+
+        public async Task<IActionResult> DisplayTest()
+        {
+            if (_currentUserId == 0) {
+                return View("Errors");
+            }
+
+            Account hello = _context.Accounts.Find(_currentUserId);
+
+            var student = await _context
+                .Accounts
+                .Include(s => s.Transactions)
+                .FirstOrDefaultAsync(s => s.Id == hello.Id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            var lstModel = new List<SimpleReportViewModel>();
+
+            Dictionary<string, double> categoryAmounts = new Dictionary<string, double>();
+            IEnumerable<string> categories = hello.Transactions.Select(s => s.Category).Distinct().ToList();
+
+            double totalQuantity = 0;
+
+            foreach (var t in hello.Transactions)
+            {
+
+                totalQuantity += t.Amount;
+
+                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(t.Category));
+
+                if (categoryAmounts.ContainsKey(cat))
+                {
+                    categoryAmounts[cat] = categoryAmounts[cat] + t.Amount;
+                }
+                else
+                {
+                    categoryAmounts.Add(cat, t.Amount);
+                }
+
+            }
+
+            foreach (var c in categories)
+            {
+                string cat = Enum.GetName(typeof(TransactionForm.Categories), Int32.Parse(c));
+
+                lstModel.Add(new SimpleReportViewModel
+                {
+                    DimensionOne = cat,
+                    Quantity = (int)Math.Round((categoryAmounts[cat]))
+
+                });
+            }
+
+            IEnumerable<SimpleReportViewModel> categoriesIEnum = lstModel;
+            return View(categoriesIEnum);
+        }
+
+        /* -------------------- News API  -------------------- */
 
         public async Task<IActionResult> News()
         {
@@ -352,63 +327,15 @@ namespace BreadBudget.Controllers
 
         }
 
-
-        public IActionResult ImageTest()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> AllTransactions()
-        {
-            if (_currentUserId == 0)
-            {
-                return View("Errors");
-            }
-
-            var account = await _context
-               .Accounts
-               .Include(a => a.Transactions)
-               .FirstOrDefaultAsync(a => a.Id == _currentUserId);
-
-
-            return View(account.Transactions.ToList());
-
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public async Task<IActionResult> Delete(int id) {
-
-             var account = await _context
-               .Accounts
-               .Include(a => a.Transactions)
-               .FirstOrDefaultAsync(a => a.Id == _currentUserId);
-
-            Transaction transaction = account.Transactions.Where(t => t.Id == id).FirstOrDefault();
-
-            if (account == null)
-            {
-                return View("Errors");
-            }
-
-            _context.Entry(transaction).State = EntityState.Deleted;
-            account.Transactions.Remove(transaction);
-            await _context.SaveChangesAsync();
-            return View("TransactionByCategory", account.Transactions.Where(t => t.Category == _currentCategory).ToList());
-
-        }
+        /* -------------------- User logs out  -------------------- */
 
         public IActionResult SignOut()
         {
             _currentUserId = 0;
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
-
+      
 
 
     }

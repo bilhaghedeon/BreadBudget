@@ -22,6 +22,8 @@ namespace BreadBudget.Controllers
         // current user account 
         private static int _currentUserId { get; set; }
 
+        private static string _currentCategory { get; set; }
+
         public HomeController(UserDb context)
         {
             _context = context;
@@ -163,6 +165,9 @@ namespace BreadBudget.Controllers
                 {
                     string fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
                     string extension = Path.GetExtension(model.ProfilePicture.FileName);
+
+                    
+
                     fileName = Guid.NewGuid().ToString() + "_" + fileName + extension;
                     string filePath = Path.Combine("wwwroot/images/", fileName);
                     model.ProfilePicture.CopyTo(new FileStream(filePath, FileMode.Create));
@@ -278,11 +283,15 @@ namespace BreadBudget.Controllers
 
         public IActionResult AllCategories()
         {
+            List<string> categories = new List<string>()
+            {
+                "Housing", "Grocery", "Transportation", "Clothes", "Bills", "Food", "Health", "Miscellaneous"
+            };
             if (_currentUserId == 0)
             {
                 return View("Errors");
             }
-            return View();
+            return View(categories);
         }
 
         public async Task<IActionResult> TransactionByCategory(string category)
@@ -291,6 +300,9 @@ namespace BreadBudget.Controllers
             {
                 return View("Errors");
             }
+
+            _currentCategory = category;
+
             var account = await _context
                 .Accounts
                 .Include(a=> a.Transactions)
@@ -367,6 +379,27 @@ namespace BreadBudget.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> Delete(int id) {
+
+             var account = await _context
+               .Accounts
+               .Include(a => a.Transactions)
+               .FirstOrDefaultAsync(a => a.Id == _currentUserId);
+
+            Transaction transaction = account.Transactions.Where(t => t.Id == id).FirstOrDefault();
+
+            if (account == null)
+            {
+                return View("Errors");
+            }
+
+            _context.Entry(transaction).State = EntityState.Deleted;
+            account.Transactions.Remove(transaction);
+            await _context.SaveChangesAsync();
+            return View("TransactionByCategory", account.Transactions.Where(t => t.Category == _currentCategory).ToList());
+
         }
 
 

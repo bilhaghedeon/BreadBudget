@@ -14,119 +14,24 @@
 <body>
     <h4 style="text-align: center">Pick a Category</h4>
     <div class="card-group">
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="0" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px;">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/housing.png" />
-                        <div class="card-body">
-                            <p>Housing</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            string link = String.Format("/images/{0}.png", Model[i]);
 
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="1" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/grocery.png" />
-                        <div class="card-body">
-                            <p>Groceries</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="2" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/transportation.png" />
-                        <div class="card-body">
-                            <p>Transportation</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="3" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/clothes.png" />
-                        <div class="card-body">
-                            <p>Clothes</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="card-group">
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="4" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/bills.png" />
-                        <div class="card-body">
-                            <p>Bills</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="5" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/food.png" />
-                        <div class="card-body">
-                            <p>Food</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="6" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/health.png" />
-                        <div class="card-body">
-                            <p>Health</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div>
-            <form asp-action="TransactionByCategory" method="post">
-                <input name="category" value="7" type="hidden" />
-                <div class="card text-center" style="width: 13rem; margin: 30px">
-                    <button style="background-color: white; border: none" type="submit">
-                        <img class="card-img-top" src="~/images/miscellaneous.png" />
-                        <div class="card-body">
-                            <p>Micellaneous</p>
-                        </div>
-                    </button>
-                </div>
-            </form>
-        </div>
+            <div>
+                <form asp-action="TransactionByCategory" method="post">
+                    <input name="category" value="@i" type="hidden" />
+                    <div class="card text-center" style="width: 13rem; margin: 30px;">
+                        <button style="background-color: white; border: none" type="submit">
+                            <img class="card-img-top" src=@link />
+                            <div class="card-body">
+                                <p>@Model[i]</p>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        }
     </div>
 </body>
 </html>

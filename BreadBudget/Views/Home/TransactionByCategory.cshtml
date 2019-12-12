@@ -8,8 +8,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/js/receipt.js"/>
+    <link rel="stylesheet" href="~/js/receipt.js" />
+    <link rel="stylesheet" href="~/css/site.css" />
     <title>Rent</title>
 </head>
 <body>
@@ -21,17 +23,19 @@
                 <th scope="col">Amount</th>
                 <th scope="col">Note</th>
                 <th scope="col">Receipt</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
             @foreach(var receipt in Model)
             {
                 <tr>
-                    <th>@receipt.TransactionType</th>
-                    <th>@receipt.Name</th>
-                    <th>@receipt.Amount</th>
-                    <th>@receipt.Note</th>
-                    <th><a class="image-link" href="~/images/@receipt.Receipt">View Receipt</a></th>
+                    <td>@receipt.TransactionType</td>
+                    <td>@receipt.Name</td>
+                    <td>@receipt.Amount</td>
+                    <td>@receipt.Note</td>
+                    <td><a class="image-link" href="~/images/@receipt.Receipt">View Receipt</a></td>
+                    <td><a href="/Home/Delete/@receipt.Id">Delete Transaction</a></td>
                 </tr>
             }
         </tbody>

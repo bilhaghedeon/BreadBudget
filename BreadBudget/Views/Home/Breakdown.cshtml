@@ -38,13 +38,13 @@
 
 <script type="text/javascript">
 
-        $(function () {
-    var chartName = "chart";
+    $(function () {
+        var chartName = "chart";
         var ctx = document.getElementById(chartName).getContext('2d');
         var data = {
                 labels: @Html.Raw(XLabels),
             datasets: [{
-                label: "Drinks Chart",
+                label: "Transactions Chart",
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -75,10 +75,9 @@
                 ],
                 borderWidth: 1,
                 data: @Html.Raw(YValues)
-    }]
-            };
-
-var options = {
+                }]
+        };
+        var options = {
                 maintainAspectRatio: false,
                 scales: {
                     yAxes: [{

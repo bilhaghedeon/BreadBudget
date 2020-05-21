@@ -255,8 +255,7 @@ namespace BreadBudget.Controllers
                 return View("Errors");
             }
 
-            //Account account = await _context.Accounts.FindAsync(_currentUserId);
-
+            
             var account = await _context
                 .Accounts
                 .Include(s => s.Transactions)
